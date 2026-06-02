@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: portfolio
+      POSTGRES_PASSWORD: portfolio
+      POSTGRES_DB: portfolio
+    ports:
+      # host:container — host 5440 so it never clashes with a local 5432
+      - "5440:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portfolio -d portfolio"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # In-network connection — service name `db`, container port 5432.
+      DATABASE_URL: "postgresql://portfolio:portfolio@db:5432/portfolio?schema=public"
+      NODE_ENV: production
+      # Email (Resend) — pulled from host .env, blank-safe (degrades to DB-only).
+      RESEND_API_KEY: "${RESEND_API_KEY:-}"
+      CONTACT_TO_EMAIL: "${CONTACT_TO_EMAIL:-}"
+      CONTACT_FROM: "${CONTACT_FROM:-}"
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
