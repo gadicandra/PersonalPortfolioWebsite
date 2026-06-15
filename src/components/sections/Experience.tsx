@@ -2,6 +2,7 @@ import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { experience } from "@/content/experience";
+import { profile } from "@/content/profile";
 
 export function Experience() {
   return (
@@ -16,6 +17,16 @@ export function Experience() {
               Building teams, not just{" "}
               <span className="font-serif italic text-accent">code</span>.
             </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="label mt-8 inline-flex items-center gap-2 transition-colors hover:text-accent"
+            >
+              Full profile on LinkedIn ↗
+            </a>
           </Reveal>
         </div>
 

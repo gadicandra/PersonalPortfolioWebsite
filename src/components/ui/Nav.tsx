@@ -9,7 +9,7 @@ const LINKS = [
   { label: "Work", target: "#work" },
   { label: "Models", target: "#models" },
   { label: "Experience", target: "#experience" },
-  { label: "Writing", target: "#writing" },
+  { label: "Awards", target: "#achievements" },
   { label: "Contact", target: "#contact" },
 ];
 
@@ -45,10 +45,10 @@ export function Nav() {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 md:px-10">
         <Link
           href="/"
-          className="font-mono text-sm tracking-[0.2em] text-fg transition-colors hover:text-accent"
+          className="font-sans text-sm font-medium tracking-tight text-fg transition-colors hover:text-accent"
           aria-label="Home — Garjita Adicandra"
         >
-          GA<span className="text-accent">.</span>
+          Garjita Adicandra<span className="text-accent">.</span>
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">

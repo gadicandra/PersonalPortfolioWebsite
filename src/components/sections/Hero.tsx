@@ -97,12 +97,12 @@ export function Hero() {
               </span>
             </button>
             <a
-              href="https://huggingface.co/Adicandra"
+              href={profile.linkedin}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-line-strong px-6 py-3 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
             >
-              Hugging Face ↗
+              LinkedIn ↗
             </a>
           </div>
         </div>

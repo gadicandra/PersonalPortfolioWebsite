@@ -14,28 +14,28 @@ export type Model = {
 // point-in-time snapshot (illustrative, not live-fetched).
 export const models: Model[] = [
   {
+    id: "imcap-connector",
+    name: "Qwen3.5-4B-ImCap-LoRA-Connector",
+    task: "Image → Text",
+    base: "Qwen/Qwen3.5-4B-Base",
+    technique: ["LoRA", "Connector", "VLM"],
+    language: "Bahasa Indonesia",
+    downloads: 31,
+    summary:
+      "Connector-tuned vision-language model for Bahasa Indonesia image captioning with structured JSON output.",
+    href: "https://huggingface.co/Adicandra/Qwen3.5-4B-ImCap-LoRA-Connector",
+  },
+  {
     id: "imcap-lora",
     name: "Qwen3.5-4B-ImageCaptioning-LoRA",
     task: "Image → Text",
     base: "Qwen/Qwen3.5-4B-Base",
     technique: ["LoRA", "Merged", "VLM"],
     language: "Bahasa Indonesia",
-    downloads: 47,
+    downloads: 46,
     summary:
       "Vision-language model fine-tuned for Bahasa Indonesia image captioning with structured JSON output.",
     href: "https://huggingface.co/Adicandra/Qwen3.5-4B-ImageCaptioning-LoRA",
-  },
-  {
-    id: "imcap",
-    name: "qwen3.5-4b-imcap",
-    task: "Image → Text",
-    base: "unsloth/Qwen3.5-4B-Base",
-    technique: ["Unsloth", "Multimodal"],
-    language: "English",
-    downloads: 44,
-    summary:
-      "Image-text-to-text Qwen3.5-4B variant trained with Unsloth for fast, memory-efficient fine-tuning.",
-    href: "https://huggingface.co/Adicandra/qwen3.5-4b-imcap",
   },
   {
     id: "multitask",
@@ -46,7 +46,7 @@ export const models: Model[] = [
     language: "Bahasa Indonesia",
     downloads: 11,
     summary:
-      "Multitask Indonesian LLM for sentiment analysis and summarization — fine-tuned on the AITF/Komdigi CPT base.",
+      "LoRA-merged SFT of the aitf-kpm-ugm Qwen3-4B CPT base for multitask Bahasa Indonesia NLP — sentiment analysis and summarization in ChatML format.",
     href: "https://huggingface.co/Adicandra/Qwen3-4B-Multitask",
   },
 ];

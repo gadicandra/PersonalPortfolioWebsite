@@ -7,38 +7,38 @@ export type Experience = {
 
 export const experience: Experience[] = [
   {
-    org: "AI Talent Factory (Komdigi)",
-    role: "Selected Participant",
-    period: "2025 — 2026",
+    org: "AI Talent Factory (AITF) — Komdigi",
+    role: "AI / LLM Engineering Intern",
+    period: "Jan 2026 — Present",
     description:
-      "Government AI talent program. My Qwen3-4B-Multitask model is fine-tuned directly on the program's CPT base.",
+      "National AI talent program under Kementerian Komunikasi dan Digital. Fine-tuned the Qwen3-4B-Multitask model on the program's CPT base, focused on applied LLM and VLM engineering.",
   },
   {
     org: "180 Degrees Consulting UGM",
     role: "IT Analyst",
-    period: "2025",
+    period: "Aug 2025 — May 2026",
     description:
-      "Drove organizational website development and ran the technical side of the consulting bootcamp.",
+      "Drove organizational website development and ran the technical side of the consulting bootcamp. Recognised as Cycle Star of the IT Division.",
   },
   {
-    org: "Nesco 2026",
-    role: "Coordinator, Sponsorship & Fundraising",
-    period: "2025 — 2026",
+    org: "Find IT UGM",
+    role: "Web Development Staff (Front End)",
+    period: "Dec 2025 — May 2026",
     description:
-      "Drafted proposals, managed division tasks, and led alumni follow-up across UGM Electrical & IT networks.",
+      "Built the competition homepage, participant dashboards, and registration systems with Next.js and Tailwind CSS.",
   },
   {
-    org: "Find IT 2026",
-    role: "Web Development Staff",
-    period: "2025 — 2026",
+    org: "Nesco UGM 2026",
+    role: "Head of Fundraising",
+    period: "Dec 2025 — Jun 2026",
     description:
-      "Built competition dashboards and registration systems for the event.",
+      "Led sponsorship and fundraising for the National Electrical Power System Competition — drafting proposals and following up across UGM Electrical & IT alumni networks.",
   },
   {
-    org: "Himpunan (Student Association)",
-    role: "Vice Head of Division",
-    period: "2025 — 2026",
+    org: "KMTETI FT UGM",
+    role: "Vice Head, Electropreneur Division",
+    period: "Dec 2024 — Present",
     description:
-      "Balancing high-level leadership with deep technical specialization within the division.",
+      "Lead the Electropreneur division of the Electrical & IT student association. Previously Staff Electropreneur and named Staff of the Year KMTETI 2025.",
   },
 ];

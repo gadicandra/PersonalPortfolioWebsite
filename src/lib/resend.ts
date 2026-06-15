@@ -1,9 +1,9 @@
 import { Resend } from "resend";
 
 /**
- * Single Resend client. Kept null when no API key is configured so the app
- * still runs (contact messages persist to Postgres) — email is additive, not
- * a hard dependency. See submitContact for the graceful-degradation path.
+ * Single Resend client. Email is the only delivery path for contact messages,
+ * so this must be configured in production. Kept null when no API key is set
+ * (e.g. local dev) — submitContact then returns an error to the visitor.
  */
 const apiKey = process.env.RESEND_API_KEY;
 
