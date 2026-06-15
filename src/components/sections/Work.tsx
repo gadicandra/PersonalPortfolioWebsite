@@ -56,8 +56,8 @@ export function Work() {
             Things I&apos;ve <span className="font-serif italic text-accent">shipped</span>.
           </h2>
           <p className="mt-6 max-w-xs text-fg-muted">
-            From AIoT systems to client web builds and ML research. Scroll to move
-            through them.
+            From AI assistants and event platforms to client web builds and AIoT
+            systems. Scroll to move through them.
           </p>
           <span className="label mt-8 hidden items-center gap-2 md:inline-flex">
             Drag / scroll <span aria-hidden>→</span>
@@ -103,7 +103,7 @@ export function Work() {
                 rel="noreferrer"
                 className="mt-9 inline-flex w-fit items-center gap-2 border-b border-line-strong pb-1 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
               >
-                View repository
+                {p.linkLabel ?? "View repository"}
                 <span className="transition-transform group-hover:translate-x-1">
                   ↗
                 </span>
@@ -111,6 +111,29 @@ export function Work() {
             )}
           </article>
         ))}
+
+        {/* Closing panel — GitHub */}
+        <article className="group shrink-0 border-t border-line px-6 py-12 md:flex md:h-svh md:w-[44vw] md:flex-col md:justify-center md:border-l md:border-t-0 md:px-12">
+          <p className="label text-accent">More on GitHub</p>
+          <h3 className="mt-3 max-w-md font-sans text-4xl font-medium tracking-tight md:text-5xl">
+            Want the <span className="font-serif italic text-accent">full</span> picture?
+          </h3>
+          <p className="mt-5 max-w-md text-lg leading-relaxed text-fg-muted">
+            The rest of what I build — experiments, research, and side projects —
+            lives on my GitHub.
+          </p>
+          <a
+            href="https://github.com/gadicandra"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-9 inline-flex w-fit items-center gap-2 border-b border-line-strong pb-1 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
+          >
+            View GitHub profile
+            <span className="transition-transform group-hover:translate-x-1">
+              ↗
+            </span>
+          </a>
+        </article>
 
         {/* trailing spacer so the last card clears the viewport edge */}
         <div className="hidden shrink-0 md:block md:w-[12vw]" aria-hidden />

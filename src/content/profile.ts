@@ -20,12 +20,19 @@ export const profile = {
   socials: [
     { label: "GitHub", handle: "@gadicandra", href: "https://github.com/gadicandra" },
     { label: "Hugging Face", handle: "@Adicandra", href: "https://huggingface.co/Adicandra" },
+    {
+      label: "LinkedIn",
+      handle: "in/garjita-adicandra",
+      href: "https://www.linkedin.com/in/garjita-adicandra/",
+    },
     { label: "Email", handle: "g.adicandra0@gmail.com", href: "mailto:g.adicandra0@gmail.com" },
   ],
 
+  linkedin: "https://www.linkedin.com/in/garjita-adicandra/",
+
   stats: [
     { value: "3", label: "Published models" },
-    { value: "23", label: "Public repos" },
+    { value: "20+", label: "Public repos" },
     { value: "5+", label: "Org leadership roles" },
   ],
 } as const;

@@ -3,18 +3,12 @@ import { About } from "@/components/sections/About";
 import { Work } from "@/components/sections/Work";
 import { Models } from "@/components/sections/Models";
 import { Experience } from "@/components/sections/Experience";
+import { Achievements } from "@/components/sections/Achievements";
 import { Stack } from "@/components/sections/Stack";
-import { BlogTeaser } from "@/components/sections/BlogTeaser";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
-import { getLatestPosts } from "@/lib/posts";
 
-// Home queries Postgres for latest posts — render at request time.
-export const dynamic = "force-dynamic";
-
-export default async function Home() {
-  const posts = await getLatestPosts(3);
-
+export default function Home() {
   return (
     <>
       <main>
@@ -23,8 +17,8 @@ export default async function Home() {
         <Work />
         <Models />
         <Experience />
+        <Achievements />
         <Stack />
-        <BlogTeaser posts={posts} />
         <Contact />
       </main>
       <Footer />

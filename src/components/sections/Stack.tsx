@@ -7,7 +7,7 @@ export function Stack() {
   return (
     <Section id="stack" className="py-28 md:py-40">
       <Reveal>
-        <Eyebrow index="04">Stack</Eyebrow>
+        <Eyebrow index="05">Stack</Eyebrow>
       </Reveal>
       <Reveal delay={0.05}>
         <h2 className="mt-6 max-w-2xl font-sans text-h2 font-medium leading-tight tracking-[-0.02em]">

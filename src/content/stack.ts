@@ -11,6 +11,7 @@ export const stack: StackGroup[] = [
       "VLM / LLM architectures",
       "Qwen-VL · Gemma · LLaVA · BART",
       "HuggingFace · Transformers · PEFT",
+      "Unsloth · TRL",
       "Model evaluation & bias mitigation",
       "Image captioning",
     ],
@@ -20,10 +21,10 @@ export const stack: StackGroup[] = [
     items: [
       "Next.js (App Router)",
       "TypeScript · React",
-      "Tailwind CSS",
-      "Supabase · Prisma",
+      "Tailwind CSS · GSAP",
+      "Node.js · REST APIs",
+      "Supabase · Prisma · Payload CMS",
       "PostgreSQL",
-      "Payload CMS",
     ],
   },
   {
@@ -37,11 +38,12 @@ export const stack: StackGroup[] = [
     ],
   },
   {
-    title: "Data & Foundations",
+    title: "Data & Tooling",
     items: [
       "SQL (DDL / DML / complex joins)",
       "Database design",
-      "Docker",
+      "Docker · AWS",
+      "Git / GitHub",
       "Data-driven project management",
     ],
   },

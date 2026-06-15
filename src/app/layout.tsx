@@ -3,6 +3,7 @@ import { Geist_Mono, Instrument_Serif, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Nav } from "@/components/ui/Nav";
+import { SITE_URL } from "@/lib/site";
 
 const grotesk = Space_Grotesk({
   variable: "--font-grotesk",
@@ -25,8 +26,6 @@ const instrument = Instrument_Serif({
   display: "swap",
 });
 
-const SITE_URL = "https://garjita-adicandra.dev";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -45,13 +44,23 @@ export const metadata: Metadata = {
     "Next.js",
   ],
   authors: [{ name: "Garjita Adicandra" }],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Garjita Adicandra — AI/ML & Full-Stack Engineer",
     description:
       "Fine-tuned vision-language models, AIoT systems, and production web apps. Information Engineering @ UGM.",
     url: SITE_URL,
     siteName: "Garjita Adicandra",
+    locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Garjita Adicandra — AI/ML & Full-Stack Engineer",
+    description:
+      "Fine-tuned vision-language models, AIoT systems, and production web apps. Information Engineering @ UGM.",
   },
 };
 

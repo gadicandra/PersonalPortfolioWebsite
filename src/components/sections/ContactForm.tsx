@@ -4,8 +4,27 @@ import { useActionState } from "react";
 import { submitContact } from "@/app/actions/contact";
 import { initialContactState } from "@/lib/validation";
 
-const fieldClass =
-  "w-full border-b border-line bg-transparent py-3 text-fg placeholder:text-fg-faint outline-none transition-colors focus:border-accent";
+const fieldBase =
+  "w-full rounded-lg border bg-bg-raised px-4 py-3 text-fg placeholder:text-fg-faint outline-none transition-colors";
+// Non-color cues (for color-vision safety): invalid fields also get a thicker
+// ring, and errors are prefixed with a ⚠ glyph + bold weight — never colour alone.
+const fieldOk =
+  "border-line-strong hover:border-fg-faint focus:border-accent focus:ring-1 focus:ring-accent";
+const fieldError =
+  "border-red-400 ring-1 ring-red-400 focus:border-red-300 focus:ring-red-300";
+
+function FieldError({ id, message }: { id: string; message: string }) {
+  return (
+    <p
+      id={id}
+      role="alert"
+      className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-red-400"
+    >
+      <span aria-hidden>⚠</span>
+      {message}
+    </p>
+  );
+}
 
 export function ContactForm() {
   const [state, action, pending] = useActionState(
@@ -24,6 +43,9 @@ export function ContactForm() {
     );
   }
 
+  const cls = (invalid: boolean, extra = "") =>
+    `${fieldBase} ${invalid ? fieldError : fieldOk} mt-2 ${extra}`;
+
   return (
     <form action={action} className="flex flex-col gap-7" noValidate>
       <div>
@@ -37,10 +59,11 @@ export function ContactForm() {
           placeholder="Your name"
           defaultValue={state.values?.name}
           aria-invalid={!!state.errors?.name}
-          className={`${fieldClass} mt-2`}
+          aria-describedby={state.errors?.name ? "name-error" : undefined}
+          className={cls(!!state.errors?.name)}
         />
         {state.errors?.name && (
-          <p className="mt-2 text-sm text-red-400">{state.errors.name[0]}</p>
+          <FieldError id="name-error" message={state.errors.name[0]} />
         )}
       </div>
 
@@ -55,10 +78,11 @@ export function ContactForm() {
           placeholder="you@email.com"
           defaultValue={state.values?.email}
           aria-invalid={!!state.errors?.email}
-          className={`${fieldClass} mt-2`}
+          aria-describedby={state.errors?.email ? "email-error" : undefined}
+          className={cls(!!state.errors?.email)}
         />
         {state.errors?.email && (
-          <p className="mt-2 text-sm text-red-400">{state.errors.email[0]}</p>
+          <FieldError id="email-error" message={state.errors.email[0]} />
         )}
       </div>
 
@@ -73,15 +97,22 @@ export function ContactForm() {
           placeholder="What's on your mind?"
           defaultValue={state.values?.message}
           aria-invalid={!!state.errors?.message}
-          className={`${fieldClass} mt-2 resize-none`}
+          aria-describedby={state.errors?.message ? "message-error" : undefined}
+          className={cls(!!state.errors?.message, "resize-none")}
         />
         {state.errors?.message && (
-          <p className="mt-2 text-sm text-red-400">{state.errors.message[0]}</p>
+          <FieldError id="message-error" message={state.errors.message[0]} />
         )}
       </div>
 
       {state.status === "error" && state.message && (
-        <p className="text-sm text-red-400">{state.message}</p>
+        <p
+          role="alert"
+          className="flex items-center gap-1.5 text-sm font-semibold text-red-400"
+        >
+          <span aria-hidden>⚠</span>
+          {state.message}
+        </p>
       )}
 
       <button
