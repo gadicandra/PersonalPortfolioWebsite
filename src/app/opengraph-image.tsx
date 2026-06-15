@@ -67,7 +67,7 @@ export default function OpengraphImage() {
           }}
         >
           <span>Information Engineering · UGM</span>
-          <span>garjita-adicandra.dev</span>
+          <span>github.com/gadicandra</span>
         </div>
       </div>
     ),
