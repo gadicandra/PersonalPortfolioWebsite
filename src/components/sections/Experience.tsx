@@ -24,13 +24,13 @@ export function Experience() {
           // 2×2 beside the intro, then the odd one out spans the row.
           className={`card flex flex-col justify-between gap-6 p-5 ${i === 4 ? "md:col-span-3" : ""}`}
         >
-          <div className="flex items-start justify-between gap-4">
-            <p className="label text-ink-muted">{e.role}</p>
-            <p className="label shrink-0 text-ink-muted">{e.period}</p>
+          <div className="flex flex-col-reverse gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+            <p className="font-medium">{e.role}</p>
+            <p className="label shrink-0 text-ink-muted sm:pt-1">{e.period}</p>
           </div>
           <div>
             <h3 className="display text-3xl">{e.org}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-muted">{e.description}</p>
+            <p className="mt-2 text-ink-muted">{e.description}</p>
           </div>
         </Reveal>
       ))}

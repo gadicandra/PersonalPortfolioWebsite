@@ -61,7 +61,7 @@ export function ContactForm() {
       <input ref={startedAt} type="hidden" name="startedAt" />
 
       <div>
-        <label htmlFor="name" className="label text-ink-muted">
+        <label htmlFor="name" className="font-medium">
           Name
         </label>
         <input
@@ -80,7 +80,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="email" className="label text-ink-muted">
+        <label htmlFor="email" className="font-medium">
           Email
         </label>
         <input
@@ -99,7 +99,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="label text-ink-muted">
+        <label htmlFor="message" className="font-medium">
           Message
         </label>
         <textarea

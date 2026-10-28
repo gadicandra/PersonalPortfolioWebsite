@@ -65,7 +65,7 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
   overflow-x: clip;
 }
   main {
@@ -111,12 +111,22 @@ a {
   margin-inline: 0.12em;
 }
 
-/* Mono eyebrow / label — the only text allowed under 12px. */
+/* Mono eyebrow for SHORT tags only (≤ ~4 words). Sentences use plain text. */
 .label {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+/* Readable running text: comfortable leading, no ragged single-word lines. */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3 {
+  text-wrap: balance;
 }
 
 /* Sonar's dashed outlined card. */

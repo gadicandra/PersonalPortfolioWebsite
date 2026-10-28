@@ -49,10 +49,11 @@ export function Featured() {
 
       <div className="grid gap-gap md:grid-cols-[1fr_2fr]">
         <Reveal className="card flex flex-col items-center justify-center gap-3 p-6 text-center">
-          <p className="label text-ink-muted">Featured · Out now</p>
+          <p className="label text-ink-muted">Latest model</p>
           <p className="display text-6xl">Out<br />now</p>
-          <p className="max-w-56 text-sm text-ink-muted">
-            <span className="font-medium text-ink">{latest.name}</span> — {latest.summary}
+          <p className="max-w-64 text-ink-muted">
+            <span className="block break-all font-mono text-sm font-medium text-ink">{latest.name}</span>
+            <span className="mt-2 block">{latest.summary}</span>
           </p>
           <a href={latest.href} target="_blank" rel="noopener noreferrer" className="link-dash label">
             On Hugging Face <span aria-hidden>↗</span>

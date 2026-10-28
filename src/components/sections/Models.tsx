@@ -1,6 +1,5 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { SplitHeading } from "@/components/ui/SplitHeading";
-import { SignalBars } from "@/components/ui/SignalBars";
 import { models } from "@/content/models";
 
 /** AI/ML index tile (03) + dark spec cards per published model. */
@@ -34,19 +33,16 @@ export function Models() {
             rel="noopener noreferrer"
             className="on-dark group relative flex h-full min-h-80 flex-col justify-between overflow-hidden rounded-card bg-dark p-5 text-on-dark"
           >
-            <div className="absolute inset-y-0 right-0 w-1/2 text-accent opacity-25 transition-opacity group-hover:opacity-60">
-              <SignalBars />
-            </div>
             <div className="relative flex items-start justify-between gap-4">
               <p className="label text-on-dark-muted">{m.task}</p>
               <span aria-hidden className="grid size-9 place-items-center rounded-full bg-accent text-ink">↗</span>
             </div>
             <div className="relative">
-              <h3 className="display break-words text-3xl md:text-4xl">{m.name}</h3>
-              <p className="mt-3 max-w-md text-sm text-on-dark-muted">{m.summary}</p>
-              <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-dashed border-on-dark/25 pt-4 font-mono text-xs">
+              <h3 className="break-all font-mono text-xl font-medium leading-snug md:text-2xl">{m.name}</h3>
+              <p className="mt-3 max-w-md text-on-dark-muted">{m.summary}</p>
+              <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 border-t border-dashed border-on-dark/25 pt-4 text-sm">
                 <dt className="text-on-dark-muted">Base</dt>
-                <dd className="truncate">{m.base}</dd>
+                <dd className="break-all font-mono">{m.base}</dd>
                 <dt className="text-on-dark-muted">Technique</dt>
                 <dd>{m.technique.join(" · ")}</dd>
                 <dt className="text-on-dark-muted">Language</dt>

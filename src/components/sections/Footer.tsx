@@ -31,7 +31,7 @@ export function Footer() {
               <a
                 href={s.href}
                 {...(s.href.startsWith("http") && { target: "_blank", rel: "noopener noreferrer" })}
-                className="label flex min-h-11 items-center"
+                className="flex min-h-11 items-center font-medium"
               >
                 {s.label} ↗
               </a>

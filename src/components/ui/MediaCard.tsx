@@ -61,12 +61,12 @@ export function MediaCard({ href, title, meta, image, sizes, className = "", pri
       ) : (
         <div data-img className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_10%,#3a3a35,transparent_60%)]" />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 via-30% to-transparent to-60%" />
 
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 md:p-5">
         <div>
           <h3 className="display text-2xl md:text-3xl">{title}</h3>
-          <p className="label mt-1 text-on-dark-muted">{meta}</p>
+          <p className="mt-1 text-sm text-on-dark-muted">{meta}</p>
         </div>
         <span
           data-icon

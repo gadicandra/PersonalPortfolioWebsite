@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { SignalBars } from "@/components/ui/SignalBars";
-import { profile } from "@/content/profile";
 
 /**
  * Full-bleed dark hero with the title set Sonar-style at the bottom.
@@ -52,32 +51,30 @@ export function Hero() {
 
         <div data-hero-title className="relative px-4 pb-6 md:px-7 md:pb-8">
           <p className="overflow-hidden text-center">
-            <span data-hero-in className="label block text-on-dark-muted">
-              An AI/ML &amp; full-stack engineer
+            <span data-hero-in className="block text-lg font-medium text-on-dark md:text-xl">
+              AI/ML &amp; full-stack engineer
             </span>
           </p>
           <h1 id="hero-title" className="display mt-3 text-center text-display">
             <span className="block overflow-hidden">
-              <span data-hero-in className="block">
-                <em>the</em>Engineer<em>of</em>
-              </span>
+              <span data-hero-in className="block">Garjita</span>
             </span>
             <span className="block overflow-hidden">
-              <span data-hero-in className="block">Garjita Adicandra</span>
+              <span data-hero-in className="block">Adicandra</span>
             </span>
           </h1>
 
           <div className="mt-6 grid items-end gap-4 md:grid-cols-[1fr_2fr_1fr]">
             <p className="overflow-hidden">
               <span data-hero-in className="block">
-                <span className="display block text-xl">Now</span>
-                <span className="label text-on-dark-muted">Fine-tuning VLMs @ AITF</span>
+                <span className="label block text-on-dark-muted">Now</span>
+                <span className="mt-1 block font-medium">LLM engineering intern at AITF</span>
               </span>
             </p>
-            <p className="label overflow-hidden text-center leading-relaxed text-on-dark-muted">
-              <span data-hero-in className="block">
-                {profile.education} · {profile.location}. Fine-tuning vision-language
-                models and shipping production web apps.
+            <p className="overflow-hidden text-center text-lg text-on-dark-muted md:text-xl">
+              <span data-hero-in className="mx-auto block max-w-xl">
+                I fine-tune vision-language models and build production web apps.
+                Information Engineering student at UGM, Yogyakarta.
               </span>
             </p>
             <p className="overflow-hidden md:text-right">

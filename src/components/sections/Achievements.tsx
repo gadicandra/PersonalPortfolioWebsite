@@ -19,11 +19,11 @@ export function Achievements() {
                 aria-hidden
                 className="absolute left-1/2 top-1/2 size-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/25 blur-3xl"
               />
-              <p className="label relative text-on-dark-muted">
+              <p className="relative text-sm text-on-dark-muted">
                 {a.issuer} · {a.year}
               </p>
-              <h3 className="display relative mt-3 max-w-xl text-balance text-4xl">{a.title}</h3>
-              {a.note && <p className="relative mt-3 max-w-sm text-sm text-on-dark-muted">{a.note}</p>}
+              <h3 className="relative mt-3 max-w-xl text-2xl font-semibold leading-tight md:text-3xl">{a.title}</h3>
+              {a.note && <p className="relative mt-3 max-w-md text-on-dark-muted">{a.note}</p>}
             </article>
           </Reveal>
         ))}
@@ -36,7 +36,7 @@ export function Achievements() {
             <li key={c.title} className="flex flex-col gap-1 border-t border-dashed border-hair py-3 lg:flex-row lg:items-baseline lg:gap-3">
               <span className="font-medium">{c.title}</span>
               <span className="leader hidden lg:block" aria-hidden />
-              <span className="label text-ink-muted lg:shrink-0">
+              <span className="text-sm text-ink-muted lg:shrink-0">
                 {c.issuer} · {c.year}
               </span>
             </li>

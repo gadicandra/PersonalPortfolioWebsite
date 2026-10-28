@@ -17,9 +17,8 @@ const LINKS = [
 ];
 
 /**
- * Wordmark + menu trigger, blended with `difference` so it stays legible over
- * both the dark hero and the light canvas (replaces Sonar's per-section JS
- * theme toggle, M8). The menu is a native modal <dialog>: focus trap, Esc,
+ * Wordmark + menu trigger as solid ink pills, legible over dark media, the
+ * light canvas and body text alike (blend-mode text garbled over copy). The menu is a native modal <dialog>: focus trap, Esc,
  * inert background and focus return come free; GSAP only animates (M3).
  */
 export function Nav() {
@@ -78,9 +77,9 @@ export function Nav() {
 
   return (
     <>
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 text-white mix-blend-difference">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
         <nav className="flex items-center justify-between px-4 py-3 md:px-7 md:py-5" aria-label="Primary">
-          <Link href="/" className="display pointer-events-auto flex min-h-11 items-center text-2xl" aria-label={`${profile.name}, home`}>
+          <Link href="/" className="display pointer-events-auto flex min-h-11 items-center rounded-full bg-ink px-4 text-xl text-bg" aria-label={`${profile.name}, home`}>
             Garjita<span className="font-serif text-lg normal-case italic">&nbsp;a.</span>
           </Link>
           <button
@@ -88,7 +87,7 @@ export function Nav() {
             onClick={() => (open ? hide() : show())}
             aria-expanded={open}
             aria-haspopup="dialog"
-            className="label pointer-events-auto flex min-h-11 items-center gap-3 rounded-full border border-current px-4"
+            className="label pointer-events-auto flex min-h-11 items-center gap-3 rounded-full bg-ink px-4 text-bg"
           >
             Menu
             <span aria-hidden className="flex flex-col gap-1">

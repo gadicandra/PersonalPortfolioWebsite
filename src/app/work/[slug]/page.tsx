@@ -71,7 +71,7 @@ export default async function ProjectPage({ params }: PageProps<"/work/[slug]">)
             <h2 className="label text-ink-muted">Stack</h2>
             <ul className="flex flex-wrap gap-2">
               {p.tags.map((t) => (
-                <li key={t} className="rounded-full border border-dashed border-line px-3 py-1 font-mono text-xs">
+                <li key={t} className="rounded-full border border-dashed border-line px-3 py-1 text-sm">
                   {t}
                 </li>
               ))}
