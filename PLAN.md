@@ -94,54 +94,63 @@ D1 = light-first off-white + lime accent · D2 = Anton · D3 = you gather media 
 - [ ] **After deploy:** verify at https://securityheaders.com → aim for A.
 
 ### Phase 2: Design system foundation
-- [ ] Branch `feat/design-system`
-- [ ] Resolve D1/D2.
-- [ ] `globals.css`: new tokens `--bg`, `--surface` (card), `--ink`, `--ink-muted`, `--line`, `--accent`, `--radius-card` (Sonar ≈ 10–12px). Use semantic names only, no raw hex in components.
-- [ ] Fonts via `next/font`: display (Anton), serif italic (Instrument Serif, keep), mono (Geist Mono, keep). Drop Space Grotesk for a neutral body face (Inter or Geist).
-- [ ] Type scale: `--text-mega` (marquee, `clamp(6rem,22vw,22rem)`), display, h1–h3, body 16px / 1.5, label 11px uppercase tracked. Label is the only text below 12px, and it must pass 4.5:1 contrast.
-- [ ] `<DisplayHeading>` primitive that renders `the *SOUND* of` patterns. It takes `[{ text, serif?: boolean }]`, which keeps the markup semantic: one `<h2>`, with `<em>` for the serif words.
-- [ ] Spacing: an 8px grid and a single `gap` value shared across the bento.
-- [ ] Contrast check every token pair (WebAIM). Record the ratios in a comment next to the tokens.
+- [x] Branch `feat/sonar-rebuild` (phases 2–5 combined; stacked on `chore/security-baseline`)
+- [x] Resolve D1/D2.
+- [x] `globals.css`: new tokens `--bg`, `--surface` (card), `--ink`, `--ink-muted`, `--line`, `--accent`, `--radius-card` (Sonar ≈ 10–12px). Use semantic names only, no raw hex in components.
+- [x] Fonts via `next/font`: display (Anton), serif italic (Instrument Serif, keep), mono (Geist Mono, keep). Drop Space Grotesk for a neutral body face (Inter or Geist).
+- [x] Type scale: `--text-mega` (marquee, `clamp(6rem,22vw,22rem)`), display, h1–h3, body 16px / 1.5, label 11px uppercase tracked. Label is the only text below 12px, and it must pass 4.5:1 contrast.
+- [x] `<DisplayHeading>` primitive that renders `the *SOUND* of` patterns. It takes `[{ text, serif?: boolean }]`, which keeps the markup semantic: one `<h2>`, with `<em>` for the serif words.
+- [x] Spacing: an 8px grid and a single `gap` value shared across the bento.
+- [x] Contrast check every token pair (WebAIM). Record the ratios in a comment next to the tokens.
 
 ### Phase 3: Code revamp (best practices, from the Context7 docs)
-- [ ] Branch `refactor/motion`
-- [ ] `pnpm add @gsap/react`. Replace the custom `useIsomorphicLayoutEffect` + `gsap.context` with `useGSAP({ scope })`, which handles cleanup and SSR. Then delete `src/hooks/useIsomorphicLayoutEffect.ts`.
-- [ ] Use `gsap.matchMedia()` with `(prefers-reduced-motion: no-preference)` in place of the manual `prefersReducedMotion()` checks. It reverts automatically when the setting changes.
-- [ ] SplitText is free since GSAP 3.13. Use it for the headline char/line reveals, with `autoSplit` + `aria` handling so screen readers get the full string.
-- [ ] Lenis: switch to `ReactLenis root options={{ autoRaf: false }}` + drive it from `gsap.ticker` (documented pattern). That removes `src/lib/lenis.ts` global state, and `useLenis()` replaces `setLenis`.
-- [ ] Keep sections as **Server Components**. Only small leaf islands get `"use client"` (Reveal, Marquee, Nav, ContactForm, Loader).
-- [ ] Images: `next/image` with explicit `sizes`, AVIF/WebP, `priority` only on the hero. Videos: `<video muted playsInline loop preload="none" poster>`, played only when in view (IntersectionObserver) and never autoplayed under reduced motion.
-- [ ] Content stays typed in `src/content/*.ts`, with `satisfies` so typos fail at build time.
+- [x] `pnpm add @gsap/react`. Replace the custom `useIsomorphicLayoutEffect` + `gsap.context` with `useGSAP({ scope })`, which handles cleanup and SSR. Then delete `src/hooks/useIsomorphicLayoutEffect.ts`.
+- [x] Use `gsap.matchMedia()` with `(prefers-reduced-motion: no-preference)` in place of the manual `prefersReducedMotion()` checks. It reverts automatically when the setting changes.
+- [x] SplitText is free since GSAP 3.13. Use it for the headline char/line reveals, with `autoSplit` + `aria` handling so screen readers get the full string.
+- [x] Lenis: switch to `ReactLenis root options={{ autoRaf: false }}` + drive it from `gsap.ticker` (documented pattern). That removes `src/lib/lenis.ts` global state, and `useLenis()` replaces `setLenis`.
+- [x] Keep sections as **Server Components**. Only small leaf islands get `"use client"` (Reveal, Marquee, Nav, ContactForm, Loader).
+- [x] Images: `next/image` with explicit `sizes`, WebP + blur placeholder. Project screenshots captured from the live sites into `src/content/media/`.
+- [ ] **You (D3):** Videos: `<video muted playsInline loop preload="none" poster>`, played only when in view (IntersectionObserver) and never autoplayed under reduced motion.
+- [x] Content stays typed in `src/content/*.ts`, with `satisfies` so typos fail at build time.
 - [x] One test file: `src/lib/validation.test.ts` via `node --test` (no framework) covering the contact schema, honeypot and CRLF stripping.
 
 ### Phase 4: Build the sections (Sonar layout → your content)
 Mobile-first. Each bento collapses to one or two columns under 768px. Motion items M1–M11 are in §0.1. Build the shared bar curtain (M2/M3) once.
-- [ ] Motion primitives: `lib/eases.ts` (CustomEase `load`, `equalizerOut`), `<BarCurtain>`, `<Marquee>`, `<HoverCard>` (M5), signature scroll moment (pick a/b/c)
-- [ ] **Loader**: about 1.2 s, name counter 0→100, skipped on repeat visits (`sessionStorage`, in try/catch) and under reduced motion.
-- [ ] **Nav**: small wordmark top-left, menu top-right, full-screen overlay menu with focus trap + `Esc` + returns focus.
-- [ ] **Hero**: full-bleed media, overlaid `the *AI* of / GARJITA ADICANDRA` + eyebrow `AN AI/ML & FULL-STACK ENGINEER`, current-project label bottom-left, scroll cue bottom-right.
-- [ ] **Category strip + featured bento**: `AI/ML · WEB · IoT · RESEARCH · LEADERSHIP` tiles → big featured project card + 2 tall cards.
-- [ ] **Intro card**: `the *CRAFT* of / AI & SOFTWARE` + bio paragraph + "Contact me" CTA, next to "OUT NOW" style tile (latest model on HuggingFace).
-- [ ] **Marquee band**: `WORK—WORK—` horizontal scrub on scroll (ScrollTrigger, `scrub: true`). Static under reduced motion.
-- [ ] **Work grid**: numbered category tiles `01/02/03` interleaved with project cards + a "SELECTS" curated card.
-- [ ] **Models**: HF model cards (same card component, mono metadata rows).
-- [ ] **Experience / leadership**: person-card style (like Sonar's Jono Ma card) for 180DC, NESCO, AITF.
-- [ ] **Achievements / news**: 2×2 glow cards, ↗ external links with `rel="noopener noreferrer"`.
-- [ ] **Contact**: keep `useActionState` form. Labels must be visible, errors sit under each field with `aria-describedby`, and the status message is in an `aria-live` region.
-- [ ] **Footer spec sheet**: dotted-leader rows (NAME / BASED IN / FOCUS / STACK) + socials + ©.
-- [ ] `/work/[slug]` pages if D4 = yes: `generateStaticParams`, `generateMetadata`, per-page OG image.
+- [x] Motion primitives: eases in `lib/gsap.ts`, `lib/curtain.ts` + `<BarCurtain>`/`<TransitionLink>`/`<PageEnter>`, `<Marquee>`, `<MediaCard>` (M5/M6), `<SignalBars>` (M7), `<SplitHeading>`, `<Loader>` (M1)
+- [x] Signature scroll moments: **(a)** hero shrinks into a card on scroll (scrub) **and (c)** marquee speed follows scroll velocity
+- [x] **Loader**: about 1.2 s, name counter 0→100, skipped on repeat visits (`sessionStorage`, in try/catch) and under reduced motion.
+- [x] **Nav**: small wordmark top-left, menu top-right, full-screen overlay menu with focus trap + `Esc` + returns focus.
+- [x] **Hero**: full-bleed media, overlaid `the *AI* of / GARJITA ADICANDRA` + eyebrow `AN AI/ML & FULL-STACK ENGINEER`, current-project label bottom-left, scroll cue bottom-right.
+- [x] **Category strip + featured bento**: `AI/ML · WEB · IoT · RESEARCH · LEADERSHIP` tiles → big featured project card + 2 tall cards.
+- [x] **Intro card**: `the *CRAFT* of / AI & SOFTWARE` + bio paragraph + "Contact me" CTA, next to "OUT NOW" style tile (latest model on HuggingFace).
+- [x] **Marquee band**: `WORK—WORK—` horizontal scrub on scroll (ScrollTrigger, `scrub: true`). Static under reduced motion.
+- [x] **Work grid**: numbered category tiles `01/02/03` interleaved with project cards + a "SELECTS" curated card.
+- [x] **Models**: HF model cards (same card component, mono metadata rows).
+- [x] **Experience / leadership**: person-card style (like Sonar's Jono Ma card) for 180DC, NESCO, AITF.
+- [x] **Achievements / news**: 2×2 glow cards, ↗ external links with `rel="noopener noreferrer"`.
+- [x] **Contact**: keep `useActionState` form. Labels must be visible, errors sit under each field with `aria-describedby`, and the status message is in an `aria-live` region.
+- [x] **Footer spec sheet**: dotted-leader rows (NAME / BASED IN / FOCUS / STACK) + socials + ©.
+- [x] `/work/[slug]` pages if D4 = yes: `generateStaticParams`, `generateMetadata`, per-page OG image.
 
 ### Phase 5: Accessibility & performance QA
-- [ ] Keyboard: tab through everything, check visible focus, add a skip link.
-- [ ] `prefers-reduced-motion`: no marquee, no scrub, no loader, no Lenis.
-- [ ] Every interactive target ≥44×44px. No hover-only content.
-- [ ] Alt text on every image. Decorative media gets `alt=""` / `aria-hidden`.
-- [ ] Lighthouse mobile: Perf ≥90, A11y 100, BP 100, SEO 100. LCP < 2.5 s, CLS < 0.1.
-- [ ] Test at 375 / 768 / 1024 / 1440. No horizontal scroll (watch the marquee).
-- [ ] Test in a color-blindness simulator (Chrome DevTools → Rendering → Emulate vision deficiencies).
+- [x] Keyboard: tab through everything, check visible focus, add a skip link.
+- [x] `prefers-reduced-motion`: no marquee, no scrub, no loader, no Lenis.
+- [x] Every interactive target ≥44×44px. No hover-only content.
+- [x] Alt text on every image. Decorative media gets `alt=""` / `aria-hidden`.
+- [ ] **After deploy:** Lighthouse mobile: Perf ≥90, A11y 100, BP 100, SEO 100. LCP < 2.5 s, CLS < 0.1.
+- [x] Test at 375 / 768 / 1024 / 1440. No horizontal scroll (watch the marquee).
+- [ ] **You:** test in a color-blindness simulator (Chrome DevTools → Rendering → Emulate vision deficiencies).
+
+
+**Phase 5 verified 2026-10-28 (local prod build):** axe-core: 0 violations on `/`; `/work/*` flags only the nav wordmark contrast, which is a false positive (`mix-blend-difference` renders it dark on light; axe can't evaluate blend modes). Reduced motion (Playwright): no loader, no Lenis, all content visible, 0 console errors. 375px: no horizontal scroll. Menu: Esc closes, focus returns to trigger. Curtain transition `/` → `/work/[slug]` works.
+
+**Known follow-ups**
+- Add real screenshots for Puskesmas + Chili Hub (`image` in `src/content/projects.ts`) — they show a gradient placeholder now.
+- Muted loop videos in MediaCard (M5 full version) once you have clips.
+- M10 mobile Draggable: native scroll-snap used on the category strip; revisit only if it feels flat.
 
 ### Phase 6: SEO & ship
-- [ ] Update sitemap with `/work/*`. Add JSON-LD `Person` schema in the layout.
+- [x] Update sitemap with `/work/*`. Add JSON-LD `Person` schema in the layout.
 - [ ] Custom domain → update `SITE_URL` in `src/lib/site.ts` + Resend verified sender domain (`CONTACT_FROM`). Without that, mail only reaches the Resend account owner.
 - [ ] Re-check securityheaders.com + Lighthouse on prod.
 - [ ] Tag release `v2.0.0`.

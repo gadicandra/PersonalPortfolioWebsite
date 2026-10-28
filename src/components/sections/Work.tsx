@@ -1,143 +1,71 @@
-"use client";
+import { Fragment } from "react";
+import { MediaCard } from "@/components/ui/MediaCard";
+import { Reveal } from "@/components/ui/Reveal";
+import { projects, type Discipline } from "@/content/projects";
 
-import { useRef } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { projects } from "@/content/projects";
+const GROUPS: { key: Discipline; label: string }[] = [
+  { key: "web", label: "Web" },
+  { key: "iot", label: "AIoT" },
+];
 
-export function Work() {
-  const section = useRef<HTMLElement>(null);
-  const track = useRef<HTMLDivElement>(null);
-
-  useIsomorphicLayoutEffect(() => {
-    const sectionEl = section.current;
-    const trackEl = track.current;
-    if (!sectionEl || !trackEl) return;
-
-    // Pinned horizontal slide — desktop + motion only. matchMedia reverts
-    // cleanly when the query stops matching.
-    const mm = gsap.matchMedia();
-    mm.add(
-      "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
-      () => {
-        const distance = () => trackEl.scrollWidth - window.innerWidth;
-
-        const tween = gsap.to(trackEl, {
-          x: () => -distance(),
-          ease: "none",
-        });
-
-        ScrollTrigger.create({
-          trigger: sectionEl,
-          start: "top top",
-          end: () => `+=${distance()}`,
-          pin: true,
-          scrub: 1,
-          animation: tween,
-          invalidateOnRefresh: true,
-        });
-      },
-    );
-
-    return () => mm.revert();
-  }, []);
-
+/** Sonar's numbered category tile (FILM ⁽¹²⁾ 01) interleaved with project cards. */
+function IndexTile({ label, count, n }: { label: string; count: number; n: number }) {
   return (
-    <section ref={section} id="work" className="relative md:h-svh md:overflow-hidden">
-      <div
-        ref={track}
-        className="flex flex-col md:h-svh md:flex-row md:flex-nowrap md:items-center"
-      >
-        {/* Intro panel */}
-        <div className="shrink-0 px-6 pt-28 md:flex md:h-svh md:w-[38vw] md:flex-col md:justify-center md:px-10 md:pt-0">
-          <Eyebrow index="01">Selected Work</Eyebrow>
-          <h2 className="mt-6 max-w-sm font-sans text-h1 font-medium leading-[0.95] tracking-[-0.02em]">
-            Things I&apos;ve <span className="font-serif italic text-accent">shipped</span>.
-          </h2>
-          <p className="mt-6 max-w-xs text-fg-muted">
-            From AI assistants and event platforms to client web builds and AIoT
-            systems. Scroll to move through them.
-          </p>
-          <span className="label mt-8 hidden items-center gap-2 md:inline-flex">
-            Drag / scroll <span aria-hidden>→</span>
-          </span>
+    <div className="card flex h-full flex-col justify-between p-4">
+      <p className="display text-2xl">
+        {label}
+        <sup className="ml-1 font-mono text-xs">({count})</sup>
+      </p>
+      <p className="display self-end text-[clamp(5rem,11vw,10rem)] leading-[0.75]" aria-hidden>
+        {String(n).padStart(2, "0")}
+      </p>
+    </div>
+  );
+}
+
+// ponytail: one grid for all groups so cells pack without orphans at 4 cols
+// (5 web + 2 AIoT + GitHub = 8). Re-balance when projects are added.
+export function Work() {
+  return (
+    <section
+      id="work"
+      tabIndex={-1}
+      aria-label="Selected work"
+      className="grid auto-rows-[minmax(14rem,auto)] gap-gap px-3 sm:auto-rows-[minmax(14rem,34vh)] sm:grid-cols-2 md:px-7 lg:grid-cols-4"
+    >
+      {GROUPS.map((g, gi) => {
+        const items = projects.filter((p) => p.discipline === g.key);
+        return (
+          <Fragment key={g.key}>
+            <Reveal className="h-full">
+              <IndexTile label={g.label} count={items.length} n={gi + 1} />
+            </Reveal>
+            {items.map((p, i) => (
+              <Reveal key={p.id} delay={(i % 3) * 0.06} className="h-full">
+                <MediaCard
+                  href={`/work/${p.id}`}
+                  title={p.title}
+                  meta={`${p.category} · ${p.year}`}
+                  image={p.image}
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  className="h-full"
+                />
+              </Reveal>
+            ))}
+          </Fragment>
+        );
+      })}
+
+      <Reveal className="card flex h-full flex-col justify-between gap-6 p-5">
+        <div>
+          <p className="label text-ink-muted">Presenting</p>
+          <p className="display mt-2 text-4xl">The rest, on GitHub</p>
+          <p className="mt-2 text-ink-muted">Experiments, research code and side projects.</p>
         </div>
-
-        {/* Project panels */}
-        {projects.map((p, i) => (
-          <article
-            key={p.id}
-            className="group shrink-0 border-t border-line px-6 py-12 md:flex md:h-svh md:w-[44vw] md:flex-col md:justify-center md:border-l md:border-t-0 md:px-12"
-          >
-            <div className="flex items-baseline justify-between">
-              <span className="font-mono text-sm text-fg-faint">
-                0{i + 1}
-              </span>
-              <span className="label">{p.year}</span>
-            </div>
-
-            <p className="label mt-10 text-accent">{p.category}</p>
-            <h3 className="mt-3 font-sans text-4xl font-medium tracking-tight md:text-5xl">
-              {p.title}
-            </h3>
-            <p className="mt-5 max-w-md text-lg leading-relaxed text-fg-muted">
-              {p.summary}
-            </p>
-
-            <ul className="mt-7 flex flex-wrap gap-2">
-              {p.tags.map((t) => (
-                <li
-                  key={t}
-                  className="rounded-full border border-line px-3 py-1 font-mono text-xs text-fg-muted"
-                >
-                  {t}
-                </li>
-              ))}
-            </ul>
-
-            {p.href && (
-              <a
-                href={p.href}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-9 inline-flex w-fit items-center gap-2 border-b border-line-strong pb-1 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
-              >
-                {p.linkLabel ?? "View repository"}
-                <span className="transition-transform group-hover:translate-x-1">
-                  ↗
-                </span>
-              </a>
-            )}
-          </article>
-        ))}
-
-        {/* Closing panel — GitHub */}
-        <article className="group shrink-0 border-t border-line px-6 py-12 md:flex md:h-svh md:w-[44vw] md:flex-col md:justify-center md:border-l md:border-t-0 md:px-12">
-          <p className="label text-accent">More on GitHub</p>
-          <h3 className="mt-3 max-w-md font-sans text-4xl font-medium tracking-tight md:text-5xl">
-            Want the <span className="font-serif italic text-accent">full</span> picture?
-          </h3>
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-fg-muted">
-            The rest of what I build — experiments, research, and side projects —
-            lives on my GitHub.
-          </p>
-          <a
-            href="https://github.com/gadicandra"
-            target="_blank"
-            rel="noreferrer"
-            className="mt-9 inline-flex w-fit items-center gap-2 border-b border-line-strong pb-1 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
-          >
-            View GitHub profile
-            <span className="transition-transform group-hover:translate-x-1">
-              ↗
-            </span>
-          </a>
-        </article>
-
-        {/* trailing spacer so the last card clears the viewport edge */}
-        <div className="hidden shrink-0 md:block md:w-[12vw]" aria-hidden />
-      </div>
+        <a href="https://github.com/gadicandra" target="_blank" rel="noopener noreferrer" className="link-dash label self-start">
+          github.com/gadicandra <span aria-hidden>↗</span>
+        </a>
+      </Reveal>
     </section>
   );
 }

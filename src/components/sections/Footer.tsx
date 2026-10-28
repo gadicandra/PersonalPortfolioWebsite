@@ -1,45 +1,46 @@
 import { profile } from "@/content/profile";
 
+const SPEC = [
+  ["Name", profile.name],
+  ["Role", "AI/ML & Full-Stack"],
+  ["Based in", "Yogyakarta, ID"],
+  ["Focus", "VLM fine-tuning · Next.js"],
+  ["School", "Information Eng. · UGM"],
+] as const;
+
+/** Sonar's spec-sheet footer: dotted leaders, giant condensed values. */
 export function Footer() {
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
-        <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
-          <div>
-            <p className="font-sans text-2xl font-medium tracking-tight">
-              {profile.name}
-              <span className="text-accent">.</span>
-            </p>
-            <p className="mt-2 max-w-xs text-sm text-fg-muted">
-              {profile.role} — open to collaborations, research, and freelance
-              builds.
-            </p>
-          </div>
+    <footer className="px-3 pb-4 pt-gap md:px-7">
+      <div className="card px-5 py-10 md:px-10 md:py-14">
+        <p className="label text-center text-ink-muted">An AI/ML &amp; full-stack engineer</p>
+        <dl className="mx-auto mt-6 flex max-w-5xl flex-col gap-1">
+          {SPEC.map(([k, v]) => (
+            <div key={k} className="flex items-end gap-3 border-b border-dotted border-hair pb-1">
+              <dt className="label shrink-0 pb-[0.6em] text-ink-muted">{k}</dt>
+              <dd className="display ml-auto text-right text-[clamp(1.5rem,4.5vw,3.75rem)]">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
 
-          <ul className="flex flex-wrap gap-x-8 gap-y-3">
-            {profile.socials.map((s) => (
-              <li key={s.label}>
-                <a
-                  href={s.href}
-                  target={s.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noreferrer"
-                  className="label transition-colors hover:text-accent"
-                >
-                  {s.label} ↗
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="mt-14 flex flex-col gap-2 border-t border-line pt-6 text-xs text-fg-faint md:flex-row md:items-center md:justify-between">
-          <span className="font-mono">
-            © {new Date().getFullYear()} {profile.name}
-          </span>
-          <span className="font-mono">
-            Built with Next.js · GSAP · PostgreSQL
-          </span>
-        </div>
+      <div className="mt-gap flex flex-col justify-between gap-4 px-1 md:flex-row md:items-center">
+        <ul className="dim-siblings flex flex-wrap gap-x-6">
+          {profile.socials.map((s) => (
+            <li key={s.label}>
+              <a
+                href={s.href}
+                {...(s.href.startsWith("http") && { target: "_blank", rel: "noopener noreferrer" })}
+                className="label flex min-h-11 items-center"
+              >
+                {s.label} ↗
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="label text-ink-muted">
+          © {new Date().getFullYear()} {profile.name} · Built with Next.js &amp; GSAP
+        </p>
       </div>
     </footer>
   );

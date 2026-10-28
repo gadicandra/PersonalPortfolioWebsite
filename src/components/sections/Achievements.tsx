@@ -1,69 +1,48 @@
-import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { achievements } from "@/content/achievements";
-import { profile } from "@/content/profile";
 
+/** Sonar's news cards: dark tile, blurred accent glow behind centered type. */
 export function Achievements() {
-  return (
-    <Section id="achievements" className="py-28 md:py-40">
-      <div className="grid gap-12 md:grid-cols-12">
-        <div className="md:col-span-4">
-          <Reveal>
-            <Eyebrow index="04">Certifications & Achievements</Eyebrow>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <h2 className="mt-6 max-w-xs font-sans text-h2 font-medium leading-tight tracking-[-0.02em]">
-              Recognised, selected, and{" "}
-              <span className="font-serif italic text-accent">certified</span>.
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="label mt-8 inline-flex items-center gap-2 transition-colors hover:text-accent"
-            >
-              See all on LinkedIn ↗
-            </a>
-          </Reveal>
-        </div>
+  const [certs, honors] = achievements;
 
-        <div className="space-y-12 md:col-span-8 md:space-y-14">
-          {achievements.map((group) => (
-            <div key={group.title}>
-              <Reveal>
-                <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-                  {group.title}
-                </h3>
-              </Reveal>
-              <div className="mt-5 border-t border-line">
-                {group.items.map((item, i) => (
-                  <Reveal key={item.title} delay={i * 0.04}>
-                    <div className="grid grid-cols-1 gap-2 border-b border-line py-6 md:grid-cols-12 md:gap-6">
-                      <p className="label md:col-span-3 md:pt-1">{item.year}</p>
-                      <div className="md:col-span-9">
-                        <h4 className="font-sans text-base font-medium tracking-tight text-fg">
-                          {item.title}
-                        </h4>
-                        <p className="mt-0.5 text-sm text-fg-muted">
-                          {item.issuer}
-                        </p>
-                        {item.note && (
-                          <p className="mt-2 max-w-xl text-sm leading-relaxed text-fg-muted">
-                            {item.note}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+  return (
+    <section id="awards" tabIndex={-1} aria-label="Awards and certifications" className="flex flex-col gap-gap px-3 md:px-7">
+      <div className="grid gap-gap md:grid-cols-2">
+        {honors.items.map((a, i) => (
+          <Reveal
+            key={a.title}
+            delay={(i % 2) * 0.06}
+            className={i === honors.items.length - 1 && i % 2 === 0 ? "md:col-span-2" : ""}
+          >
+            <article className="on-dark relative flex h-full min-h-72 flex-col items-center justify-center overflow-hidden rounded-card bg-dark p-8 text-center text-on-dark">
+              <div
+                aria-hidden
+                className="absolute left-1/2 top-1/2 size-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/25 blur-3xl"
+              />
+              <p className="label relative text-on-dark-muted">
+                {a.issuer} · {a.year}
+              </p>
+              <h3 className="display relative mt-3 max-w-xl text-balance text-4xl">{a.title}</h3>
+              {a.note && <p className="relative mt-3 max-w-sm text-sm text-on-dark-muted">{a.note}</p>}
+            </article>
+          </Reveal>
+        ))}
       </div>
-    </Section>
+
+      <Reveal className="card p-5 md:p-8">
+        <h2 className="display text-h2">{certs.title}</h2>
+        <ul className="mt-6 grid gap-x-8 md:grid-cols-2">
+          {certs.items.map((c) => (
+            <li key={c.title} className="flex flex-col gap-1 border-t border-dashed border-hair py-3 lg:flex-row lg:items-baseline lg:gap-3">
+              <span className="font-medium">{c.title}</span>
+              <span className="leader hidden lg:block" aria-hidden />
+              <span className="label text-ink-muted lg:shrink-0">
+                {c.issuer} · {c.year}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </Reveal>
+    </section>
   );
 }

@@ -1,5 +1,15 @@
+import type { StaticImageData } from "next/image";
+import img180dc from "./media/180dc.webp";
+import imgFindit from "./media/findit.webp";
+import imgNgambis from "./media/ngambis.webp";
+
+export type Discipline = "web" | "ai" | "iot";
+
 export type Project = {
+  /** URL slug for /work/[id]. */
   id: string;
+  discipline: Discipline;
+  image?: StaticImageData;
   title: string;
   category: string;
   year: string;
@@ -13,6 +23,8 @@ export type Project = {
 export const projects: Project[] = [
   {
     id: "180dc-ugm",
+    discipline: "web",
+    image: img180dc,
     title: "180DC UGM",
     category: "Web · AI RAG",
     year: "2025",
@@ -26,6 +38,8 @@ export const projects: Project[] = [
   },
   {
     id: "find-it-ugm",
+    discipline: "web",
+    image: imgFindit,
     title: "Find IT UGM",
     category: "Web · Event Platform",
     year: "2025",
@@ -39,6 +53,8 @@ export const projects: Project[] = [
   },
   {
     id: "ngambis",
+    discipline: "web",
+    image: imgNgambis,
     title: "Ngambis.id",
     category: "Freelance · EdTech",
     year: "2025",
@@ -52,6 +68,7 @@ export const projects: Project[] = [
   },
   {
     id: "puskesmas",
+    discipline: "web",
     title: "Puskesmas Batulicin",
     category: "Freelance · Web",
     year: "2026",
@@ -63,6 +80,7 @@ export const projects: Project[] = [
   },
   {
     id: "chili-hub",
+    discipline: "iot",
     title: "Chili Hub",
     category: "AIoT · Agriculture",
     year: "2025",
@@ -74,3 +92,5 @@ export const projects: Project[] = [
     href: "https://github.com/gadicandra/Chili-Hub-solusi-Pertanian-Cabai-Anda",
   },
 ];
+
+export const getProject = (id: string) => projects.find((p) => p.id === id);

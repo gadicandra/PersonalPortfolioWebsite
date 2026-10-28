@@ -1,133 +1,93 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, prefersReducedMotion } from "@/lib/gsap";
-import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
-import { scrollToSection } from "@/lib/lenis";
+import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
+import { SignalBars } from "@/components/ui/SignalBars";
 import { profile } from "@/content/profile";
 
+/**
+ * Full-bleed dark hero with the title set Sonar-style at the bottom.
+ * Signature scroll moment (a): as you scroll, the hero shrinks into a
+ * rounded card and the title drifts up — M1's grow-to-fullscreen, reversed
+ * and scrubbed. Intro text rises after the loader (delay matches its length).
+ */
 export function Hero() {
-  const root = useRef<HTMLDivElement>(null);
+  const root = useRef<HTMLElement>(null);
 
-  useIsomorphicLayoutEffect(() => {
-    const el = root.current;
-    if (!el || prefersReducedMotion()) return;
+  useGSAP(
+    () => {
+      gsap.matchMedia().add(MOTION_OK, () => {
+        const firstVisit = !document.documentElement.dataset.noloader;
+        gsap.from("[data-hero-in]", {
+          yPercent: 110,
+          opacity: 0,
+          duration: 1.1,
+          stagger: 0.06,
+          ease: "expo.out",
+          delay: firstVisit ? 2.3 : 0.1,
+        });
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from("[data-hero='eyebrow']", { opacity: 0, y: 16, duration: 0.7 })
-        .from(
-          "[data-hero='line'] > span",
-          { yPercent: 115, duration: 1.05, stagger: 0.12 },
-          "-=0.35",
-        )
-        .from(
-          "[data-hero='lede']",
-          { opacity: 0, y: 20, duration: 0.8 },
-          "-=0.55",
-        )
-        .from(
-          "[data-hero='cta'] > *",
-          { opacity: 0, y: 16, duration: 0.6, stagger: 0.1 },
-          "-=0.45",
-        )
-        .from(
-          "[data-hero='stat']",
-          { opacity: 0, y: 16, duration: 0.6, stagger: 0.08 },
-          "-=0.4",
-        )
-        .from(
-          "[data-hero='scroll']",
-          { opacity: 0, duration: 0.8 },
-          "-=0.3",
-        );
-    }, el);
-
-    return () => ctx.revert();
-  }, []);
+        gsap
+          .timeline({
+            scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
+          })
+          .to("[data-hero-frame]", { scale: 0.86, borderRadius: "1.5rem", ease: "none" }, 0)
+          .to("[data-hero-title]", { yPercent: -40, ease: "none" }, 0)
+          .to("[data-hero-bars]", { opacity: 0.15, ease: "none" }, 0);
+      });
+    },
+    { scope: root },
+  );
 
   return (
-    <div
-      ref={root}
-      className="relative flex min-h-svh flex-col justify-center overflow-hidden px-6 pb-20 pt-28 md:px-10"
-    >
-      {/* faint grid + radial fade for depth */}
-      <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.5] [mask-image:radial-gradient(ellipse_at_center,black,transparent_72%)]" />
+    <section ref={root} className="relative h-svh" aria-labelledby="hero-title">
+      <div
+        data-hero-frame
+        className="on-dark relative flex h-full flex-col justify-end overflow-hidden bg-dark text-on-dark will-change-transform"
+      >
+        <div data-hero-bars className="absolute inset-x-0 top-[10%] h-[42%] text-on-dark/70 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]">
+          <SignalBars />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
 
-      <div className="relative mx-auto w-full max-w-7xl">
-        <p
-          data-hero="eyebrow"
-          className="label flex items-center gap-3"
-        >
-          <span className="inline-block h-px w-8 bg-accent-dim" />
-          {profile.role}
-        </p>
-
-        <h1 className="mt-8 font-sans text-display font-medium leading-[0.92] tracking-[-0.03em]">
-          <span data-hero="line" className="block overflow-hidden">
-            <span className="block">{profile.heroLead}</span>
-          </span>
-          <span data-hero="line" className="block overflow-hidden">
-            <span className="block font-serif font-normal italic text-accent">
-              {profile.heroAccent}
+        <div data-hero-title className="relative px-4 pb-6 md:px-7 md:pb-8">
+          <p className="overflow-hidden text-center">
+            <span data-hero-in className="label block text-on-dark-muted">
+              An AI/ML &amp; full-stack engineer
             </span>
-          </span>
-          <span data-hero="line" className="block overflow-hidden">
-            <span className="block text-fg-muted">{profile.heroTail}</span>
-          </span>
-        </h1>
-
-        <div className="mt-10 flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
-          <p
-            data-hero="lede"
-            className="max-w-md text-base leading-relaxed text-fg-muted"
-          >
-            {profile.education}. Currently fine-tuning vision-language models and
-            shipping production web apps from {profile.location}.
           </p>
-
-          <div data-hero="cta" className="flex flex-wrap items-center gap-4">
-            <button
-              onClick={() => scrollToSection("#work")}
-              className="group inline-flex items-center gap-2 rounded-full bg-fg px-6 py-3 text-sm font-medium text-bg transition-colors hover:bg-accent"
-            >
-              View work
-              <span className="transition-transform group-hover:translate-y-0.5">
-                ↓
+          <h1 id="hero-title" className="display mt-3 text-center text-display">
+            <span className="block overflow-hidden">
+              <span data-hero-in className="block">
+                <em>the</em>Engineer<em>of</em>
               </span>
-            </button>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-line-strong px-6 py-3 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
-            >
-              LinkedIn ↗
-            </a>
+            </span>
+            <span className="block overflow-hidden">
+              <span data-hero-in className="block">Garjita Adicandra</span>
+            </span>
+          </h1>
+
+          <div className="mt-6 grid items-end gap-4 md:grid-cols-[1fr_2fr_1fr]">
+            <p className="overflow-hidden">
+              <span data-hero-in className="block">
+                <span className="display block text-xl">Now</span>
+                <span className="label text-on-dark-muted">Fine-tuning VLMs @ AITF</span>
+              </span>
+            </p>
+            <p className="label overflow-hidden text-center leading-relaxed text-on-dark-muted">
+              <span data-hero-in className="block">
+                {profile.education} · {profile.location}. Fine-tuning vision-language
+                models and shipping production web apps.
+              </span>
+            </p>
+            <p className="overflow-hidden md:text-right">
+              <a data-hero-in href="#work" className="link-dash label">
+                View work <span aria-hidden>↓</span>
+              </a>
+            </p>
           </div>
         </div>
-
-        <dl className="mt-16 grid max-w-2xl grid-cols-3 gap-6 border-t border-line pt-8">
-          {profile.stats.map((s) => (
-            <div key={s.label} data-hero="stat">
-              <dt className="font-sans text-3xl font-medium tracking-tight md:text-4xl">
-                {s.value}
-              </dt>
-              <dd className="label mt-1 normal-case tracking-normal">
-                {s.label}
-              </dd>
-            </div>
-          ))}
-        </dl>
       </div>
-
-      <div
-        data-hero="scroll"
-        className="label absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-2 md:flex"
-      >
-        <span>Scroll</span>
-        <span className="inline-block h-8 w-px animate-pulse bg-accent-dim" />
-      </div>
-    </div>
+    </section>
   );
 }

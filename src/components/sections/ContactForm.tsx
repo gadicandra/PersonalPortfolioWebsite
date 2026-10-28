@@ -5,20 +5,20 @@ import { submitContact } from "@/app/actions/contact";
 import { initialContactState } from "@/lib/validation";
 
 const fieldBase =
-  "w-full rounded-lg border bg-bg-raised px-4 py-3 text-fg placeholder:text-fg-faint outline-none transition-colors";
+  "w-full rounded-lg border bg-bg px-4 py-3 text-ink placeholder:text-ink-faint outline-none transition-colors";
 // Non-color cues (for color-vision safety): invalid fields also get a thicker
 // ring, and errors are prefixed with a ⚠ glyph + bold weight — never colour alone.
 const fieldOk =
-  "border-line-strong hover:border-fg-faint focus:border-accent focus:ring-1 focus:ring-accent";
+  "border-hair hover:border-ink-faint focus:border-ink focus:ring-1 focus:ring-ink";
 const fieldError =
-  "border-red-400 ring-1 ring-red-400 focus:border-red-300 focus:ring-red-300";
+  "border-danger border-2 focus:ring-1 focus:ring-danger";
 
 function FieldError({ id, message }: { id: string; message: string }) {
   return (
     <p
       id={id}
       role="alert"
-      className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-red-400"
+      className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-danger"
     >
       <span aria-hidden>⚠</span>
       {message}
@@ -40,8 +40,8 @@ export function ContactForm() {
   if (state.status === "success") {
     return (
       <div className="flex min-h-[18rem] flex-col items-start justify-center">
-        <span className="text-accent">✦</span>
-        <p className="mt-4 max-w-sm text-2xl leading-snug tracking-tight">
+        <span className="grid size-10 place-items-center rounded-full bg-accent text-ink" aria-hidden>✓</span>
+        <p role="status" className="display mt-4 max-w-sm text-4xl">
           {state.message}
         </p>
       </div>
@@ -61,7 +61,7 @@ export function ContactForm() {
       <input ref={startedAt} type="hidden" name="startedAt" />
 
       <div>
-        <label htmlFor="name" className="label">
+        <label htmlFor="name" className="label text-ink-muted">
           Name
         </label>
         <input
@@ -80,7 +80,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="email" className="label">
+        <label htmlFor="email" className="label text-ink-muted">
           Email
         </label>
         <input
@@ -99,7 +99,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="label">
+        <label htmlFor="message" className="label text-ink-muted">
           Message
         </label>
         <textarea
@@ -120,7 +120,7 @@ export function ContactForm() {
       {state.status === "error" && state.message && (
         <p
           role="alert"
-          className="flex items-center gap-1.5 text-sm font-semibold text-red-400"
+          className="flex items-center gap-1.5 text-sm font-semibold text-danger"
         >
           <span aria-hidden>⚠</span>
           {state.message}
@@ -130,7 +130,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="group mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-fg px-7 py-3 text-sm font-medium text-bg transition-colors hover:bg-accent disabled:opacity-60"
+        className="group mt-2 inline-flex min-h-11 w-fit items-center gap-2 rounded-full bg-ink px-7 py-3 text-sm font-medium text-bg transition-colors hover:bg-accent hover:text-ink disabled:opacity-60"
       >
         {pending ? "Sending…" : "Send message"}
         {!pending && (

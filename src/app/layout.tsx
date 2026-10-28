@@ -1,12 +1,24 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Instrument_Serif, Space_Grotesk } from "next/font/google";
+import { Anton, Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Nav } from "@/components/ui/Nav";
 import { SITE_URL } from "@/lib/site";
+import { Loader, LOADER_GATE } from "@/components/ui/Loader";
+import { BarCurtain } from "@/components/ui/BarCurtain";
+import { PageEnter } from "@/components/ui/PageEnter";
+import { profile } from "@/content/profile";
 
-const grotesk = Space_Grotesk({
-  variable: "--font-grotesk",
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Condensed display face — Sonar's heavy uppercase headlines.
+const anton = Anton({
+  variable: "--font-anton",
+  weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
@@ -64,6 +76,17 @@ export const metadata: Metadata = {
   },
 };
 
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  url: SITE_URL,
+  email: `mailto:${profile.email}`,
+  alumniOf: { "@type": "CollegeOrUniversity", name: "Universitas Gadjah Mada" },
+  sameAs: profile.socials.filter((s) => s.href.startsWith("http")).map((s) => s.href),
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -72,12 +95,26 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${grotesk.variable} ${geistMono.variable} ${instrument.variable}`}
+      className={`${geist.variable} ${anton.variable} ${geistMono.variable} ${instrument.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: LOADER_GATE }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd).replace(/</g, "\\u003c") }}
+        />
+      </head>
       <body>
+        <a href="#main" className="label sr-only z-[100] rounded-full bg-ink px-4 py-3 text-bg focus:not-sr-only focus:fixed focus:left-3 focus:top-3">
+          Skip to content
+        </a>
         <SmoothScroll>
+          <Loader />
           <Nav />
-          {children}
+          <div data-page className="origin-top">{children}</div>
+          <BarCurtain />
+          <PageEnter />
         </SmoothScroll>
       </body>
     </html>

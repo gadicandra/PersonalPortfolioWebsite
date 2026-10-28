@@ -1,87 +1,62 @@
-import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
+import { SplitHeading } from "@/components/ui/SplitHeading";
+import { SignalBars } from "@/components/ui/SignalBars";
 import { models } from "@/content/models";
 
+/** AI/ML index tile (03) + dark spec cards per published model. */
 export function Models() {
   return (
-    <Section id="models" className="py-28 md:py-40">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div>
-          <Reveal>
-            <Eyebrow index="02">Published Models</Eyebrow>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <h2 className="mt-6 max-w-xl font-sans text-h2 font-medium leading-tight tracking-[-0.02em]">
-              Fine-tuned and shipped to{" "}
-              <span className="font-serif italic text-accent">Hugging Face</span>.
-            </h2>
-          </Reveal>
-        </div>
-        <Reveal delay={0.1}>
+    <section id="models" tabIndex={-1} aria-labelledby="models-title" className="grid gap-gap px-3 md:grid-cols-4 md:px-7">
+      <Reveal className="card flex min-h-64 flex-col justify-between p-4 md:col-span-1">
+        <p className="display text-2xl">
+          AI / ML<sup className="ml-1 font-mono text-xs">({models.length})</sup>
+        </p>
+        <p className="display self-end text-[clamp(5rem,11vw,10rem)] leading-[0.75]" aria-hidden>
+          03
+        </p>
+      </Reveal>
+
+      <Reveal delay={0.06} className="card flex flex-col justify-center p-6 md:col-span-3 md:p-10">
+        <p className="label text-ink-muted">Published models</p>
+        <SplitHeading id="models-title" className="display mt-3 text-h1">
+          <em>the</em>Models<em>on</em> Hugging Face
+        </SplitHeading>
+        <a href="https://huggingface.co/Adicandra" target="_blank" rel="noopener noreferrer" className="link-dash label mt-4 self-start">
+          @Adicandra <span aria-hidden>↗</span>
+        </a>
+      </Reveal>
+
+      {models.map((m, i) => (
+        <Reveal key={m.id} delay={i * 0.06} className={i === 0 ? "md:col-span-2" : ""}>
           <a
-            href="https://huggingface.co/Adicandra"
+            href={m.href}
             target="_blank"
-            rel="noreferrer"
-            className="label inline-flex items-center gap-2 transition-colors hover:text-accent"
+            rel="noopener noreferrer"
+            className="on-dark group relative flex h-full min-h-80 flex-col justify-between overflow-hidden rounded-card bg-dark p-5 text-on-dark"
           >
-            @Adicandra ↗
+            <div className="absolute inset-y-0 right-0 w-1/2 text-accent opacity-25 transition-opacity group-hover:opacity-60">
+              <SignalBars />
+            </div>
+            <div className="relative flex items-start justify-between gap-4">
+              <p className="label text-on-dark-muted">{m.task}</p>
+              <span aria-hidden className="grid size-9 place-items-center rounded-full bg-accent text-ink">↗</span>
+            </div>
+            <div className="relative">
+              <h3 className="display break-words text-3xl md:text-4xl">{m.name}</h3>
+              <p className="mt-3 max-w-md text-sm text-on-dark-muted">{m.summary}</p>
+              <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-dashed border-on-dark/25 pt-4 font-mono text-xs">
+                <dt className="text-on-dark-muted">Base</dt>
+                <dd className="truncate">{m.base}</dd>
+                <dt className="text-on-dark-muted">Technique</dt>
+                <dd>{m.technique.join(" · ")}</dd>
+                <dt className="text-on-dark-muted">Language</dt>
+                <dd>{m.language}</dd>
+              </dl>
+            </div>
+            <span className="sr-only"> (opens Hugging Face in new tab)</span>
           </a>
         </Reveal>
-      </div>
-
-      <div className="mt-14 border-t border-line">
-        {models.map((m, i) => (
-          <Reveal key={m.id} delay={i * 0.06}>
-            <a
-              href={m.href}
-              target="_blank"
-              rel="noreferrer"
-              className="group grid grid-cols-1 gap-6 border-b border-line py-8 transition-colors hover:bg-bg-raised/40 md:grid-cols-12 md:items-center md:gap-8 md:px-4"
-            >
-              <div className="md:col-span-1">
-                <span className="font-mono text-sm text-fg-faint">
-                  0{i + 1}
-                </span>
-              </div>
-
-              <div className="md:col-span-5">
-                <h3 className="font-sans text-xl font-medium tracking-tight transition-colors group-hover:text-accent md:text-2xl">
-                  {m.name}
-                </h3>
-                <p className="mt-2 max-w-md text-sm leading-relaxed text-fg-muted">
-                  {m.summary}
-                </p>
-              </div>
-
-              <div className="md:col-span-3">
-                <p className="label normal-case tracking-normal text-fg-faint">
-                  Base
-                </p>
-                <p className="mt-1 break-all font-mono text-xs text-fg-muted">
-                  {m.base}
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between md:col-span-3 md:flex-col md:items-end md:justify-center md:gap-3">
-                <ul className="flex flex-wrap gap-2 md:justify-end">
-                  {m.technique.map((t) => (
-                    <li
-                      key={t}
-                      className="rounded-full border border-line px-2.5 py-0.5 font-mono text-[0.65rem] uppercase tracking-wider text-fg-muted"
-                    >
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-                <span className="label whitespace-nowrap">
-                  {m.downloads} downloads
-                </span>
-              </div>
-            </a>
-          </Reveal>
-        ))}
-      </div>
-    </Section>
+      ))}
+    </section>
   );
 }
