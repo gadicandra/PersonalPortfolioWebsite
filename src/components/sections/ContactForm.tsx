@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { submitContact } from "@/app/actions/contact";
 import { initialContactState } from "@/lib/validation";
 
@@ -31,6 +31,11 @@ export function ContactForm() {
     submitContact,
     initialContactState,
   );
+  // Stamped after mount (not during render) to avoid a hydration mismatch.
+  const startedAt = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (startedAt.current) startedAt.current.value = String(Date.now());
+  }, []);
 
   if (state.status === "success") {
     return (
@@ -48,6 +53,13 @@ export function ContactForm() {
 
   return (
     <form action={action} className="flex flex-col gap-7" noValidate>
+      {/* Bot traps, see looksLikeBot. Hidden from people and screen readers. */}
+      <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor="company">Company</label>
+        <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+      <input ref={startedAt} type="hidden" name="startedAt" />
+
       <div>
         <label htmlFor="name" className="label">
           Name

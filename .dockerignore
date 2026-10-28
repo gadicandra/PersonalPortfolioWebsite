@@ -12,3 +12,7 @@ README.md
 *.md
 .vscode
 .idea
+.env*
+!.env.example
+.github
+coverage

@@ -3,7 +3,12 @@
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { resend, CONTACT_TO, CONTACT_FROM } from "@/lib/resend";
-import { contactSchema, type ContactInput, type ContactState } from "@/lib/validation";
+import {
+  contactSchema,
+  looksLikeBot,
+  type ContactInput,
+  type ContactState,
+} from "@/lib/validation";
 
 const esc = (s: string) =>
   s.replace(/[&<>"']/g, (c) =>
@@ -57,6 +62,21 @@ export async function submitContact(
     message: String(formData.get("message") ?? ""),
   };
 
+  const success: ContactState = {
+    status: "success",
+    message: "Thanks — your message landed. I'll get back to you soon.",
+  };
+
+  // Fake success so bots get no signal to adapt to.
+  if (
+    looksLikeBot(
+      String(formData.get("company") ?? ""),
+      String(formData.get("startedAt") ?? ""),
+    )
+  ) {
+    return success;
+  }
+
   const parsed = contactSchema.safeParse(raw);
   if (!parsed.success) {
     return {
@@ -79,8 +99,5 @@ export async function submitContact(
     };
   }
 
-  return {
-    status: "success",
-    message: "Thanks — your message landed. I'll get back to you soon.",
-  };
+  return success;
 }
