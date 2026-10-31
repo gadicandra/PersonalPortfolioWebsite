@@ -8,23 +8,28 @@ type RevealProps = {
   className?: string;
   as?: ElementType;
   delay?: number;
-  y?: number;
+  id?: string;
 };
 
-/** Fade-up once on enter (M11). Content stays visible under reduced motion. */
-export function Reveal({ children, className, as: Tag = "div", delay = 0, y = 32 }: RevealProps) {
+/**
+ * Poulo's signature entrance: content resolves out of a blur while rising.
+ * Fires once on enter; content stays visible under reduced motion / no JS.
+ */
+export function Reveal({ children, className, as: Tag = "div", delay = 0, id }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
       gsap.matchMedia().add(MOTION_OK, () => {
         gsap.from(ref.current, {
-          y,
+          y: 24,
           opacity: 0,
-          duration: 1,
+          filter: "blur(12px)",
+          duration: 1.1,
           delay,
-          ease: "expo.out",
-          scrollTrigger: { trigger: ref.current, start: "top 90%", once: true },
+          ease: "power3.out",
+          clearProps: "filter",
+          scrollTrigger: { trigger: ref.current, start: "top 88%", once: true },
         });
       });
     },
@@ -32,7 +37,7 @@ export function Reveal({ children, className, as: Tag = "div", delay = 0, y = 32
   );
 
   return (
-    <Tag ref={ref} className={className}>
+    <Tag ref={ref} id={id} className={className}>
       {children}
     </Tag>
   );

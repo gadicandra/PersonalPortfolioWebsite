@@ -14,8 +14,8 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#efefeb",
-          color: "#181618",
+          background: "#ffffff",
+          color: "#0b0b0c",
           padding: "80px",
           fontFamily: "sans-serif",
         }}
@@ -28,10 +28,10 @@ export default function OpengraphImage() {
             fontSize: "26px",
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            color: "#55524c",
+            color: "#52525b",
           }}
         >
-          <div style={{ width: "48px", height: "2px", background: "#181618" }} />
+          <div style={{ width: "48px", height: "2px", background: "#0b0b0c" }} />
           AI/ML & Full-Stack Engineer
         </div>
 
@@ -50,7 +50,7 @@ export default function OpengraphImage() {
             style={{
               marginTop: "28px",
               fontSize: "34px",
-              color: "#55524c",
+              color: "#52525b",
               maxWidth: "900px",
             }}
           >
@@ -63,7 +63,7 @@ export default function OpengraphImage() {
             display: "flex",
             justifyContent: "space-between",
             fontSize: "24px",
-            color: "#6f6c66",
+            color: "#6b6b74",
           }}
         >
           <span>Information Engineering · UGM</span>

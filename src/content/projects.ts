@@ -18,11 +18,24 @@ export type Project = {
   tags: string[];
   href?: string;
   linkLabel?: string;
+  /** Poulo-style headline: "Project. One-line hook." */
+  hook: string;
+  role: string;
+  /** 2–4 short "what I did" cards under the showcase. */
+  highlights: { title: string; body: string }[];
 };
 
 export const projects: Project[] = [
   {
     id: "180dc-ugm",
+    hook: "Eighty, a RAG assistant that answers for the firm.",
+    role: "IT Analyst \u00b7 Web & AI",
+    highlights: [
+      { title: "RAG assistant.", body: "Built Eighty so clients and visitors get grounded answers about 180DC UGM instead of digging through pages." },
+      { title: "Event flows.", body: "Shipped event pages with their registration flows and a merch purchase form." },
+      { title: "TypeScript migration.", body: "Led the move from JavaScript to TypeScript across the codebase." },
+      { title: "Tailwind v4.", body: "Upgraded the styling layer from earlier Tailwind to v4." },
+    ],
     discipline: "web",
     image: img180dc,
     title: "180DC UGM",
@@ -38,6 +51,13 @@ export const projects: Project[] = [
   },
   {
     id: "find-it-ugm",
+    hook: "The platform behind a national IT competition.",
+    role: "Front-end Web Developer",
+    highlights: [
+      { title: "Motion-led homepage.", body: "A GSAP-driven landing page that sets the tone for the event." },
+      { title: "Participant dashboard.", body: "Registration status, submissions and announcements in one place." },
+      { title: "Admin control.", body: "The management surface organisers use to run the competition." },
+    ],
     discipline: "web",
     image: imgFindit,
     title: "Find IT UGM",
@@ -53,6 +73,12 @@ export const projects: Project[] = [
   },
   {
     id: "ngambis",
+    hook: "Learning paths so every student gets the same shot.",
+    role: "Freelance Developer",
+    highlights: [
+      { title: "Equal access.", body: "An education platform aimed at levelling the field for school students." },
+      { title: "Guided learning.", body: "Structured paths, question banks and progress tracking." },
+    ],
     discipline: "web",
     image: imgNgambis,
     title: "Ngambis.id",
@@ -68,6 +94,12 @@ export const projects: Project[] = [
   },
   {
     id: "puskesmas",
+    hook: "Health info a community can find in seconds.",
+    role: "Freelance \u00b7 Design phase",
+    highlights: [
+      { title: "Emergency first.", body: "Emergency numbers and general info surfaced before anything else." },
+      { title: "Clear service flow.", body: "Step-by-step service procedures and live vaccine availability." },
+    ],
     discipline: "web",
     title: "Puskesmas Batulicin",
     category: "Freelance · Web",
@@ -80,6 +112,13 @@ export const projects: Project[] = [
   },
   {
     id: "chili-hub",
+    hook: "AIoT that helps chili farmers decide, not guess.",
+    role: "Samsung Innovation Campus \u00b7 Batch 7",
+    highlights: [
+      { title: "Sensor monitoring.", body: "Embedded sensors stream field conditions to a web dashboard." },
+      { title: "Decision support.", body: "Readings turned into guidance growers can act on." },
+      { title: "Final mentoring.", body: "Taken through to the programme\u2019s final mentoring stage." },
+    ],
     discipline: "iot",
     title: "Chili Hub",
     category: "AIoT · Agriculture",

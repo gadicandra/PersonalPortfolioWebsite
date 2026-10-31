@@ -33,7 +33,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {enabled && <ReactLenis root ref={ref} options={{ autoRaf: false, lerp: 0.1 }} />}
+      {enabled && <ReactLenis root ref={ref} options={{ autoRaf: false, lerp: 0.1, anchors: { offset: -24 } }} />}
       {children}
     </>
   );

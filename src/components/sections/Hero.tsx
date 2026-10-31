@@ -1,89 +1,46 @@
-"use client";
+import { Rain } from "@/components/ui/Rain";
+import { Reveal } from "@/components/ui/Reveal";
+import { RoleRotator } from "@/components/ui/RoleRotator";
+import { profile } from "@/content/profile";
 
-import { useRef } from "react";
-import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
-import { SignalBars } from "@/components/ui/SignalBars";
-
-/**
- * Full-bleed dark hero with the title set Sonar-style at the bottom.
- * Signature scroll moment (a): as you scroll, the hero shrinks into a
- * rounded card and the title drifts up — M1's grow-to-fullscreen, reversed
- * and scrubbed. Intro text rises after the loader (delay matches its length).
- */
+/** Poulo's hero: rotating title left, monogram avatar centre, intro right, drizzle behind. */
 export function Hero() {
-  const root = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      gsap.matchMedia().add(MOTION_OK, () => {
-        const firstVisit = !document.documentElement.dataset.noloader;
-        gsap.from("[data-hero-in]", {
-          yPercent: 110,
-          opacity: 0,
-          duration: 1.1,
-          stagger: 0.06,
-          ease: "expo.out",
-          delay: firstVisit ? 2.3 : 0.1,
-        });
-
-        gsap
-          .timeline({
-            scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
-          })
-          .to("[data-hero-frame]", { scale: 0.86, borderRadius: "1.5rem", ease: "none" }, 0)
-          .to("[data-hero-title]", { yPercent: -40, ease: "none" }, 0)
-          .to("[data-hero-bars]", { opacity: 0.15, ease: "none" }, 0);
-      });
-    },
-    { scope: root },
-  );
-
   return (
-    <section ref={root} className="relative h-svh" aria-labelledby="hero-title">
-      <div
-        data-hero-frame
-        className="on-dark relative flex h-full flex-col justify-end overflow-hidden bg-dark text-on-dark will-change-transform"
-      >
-        <div data-hero-bars className="absolute inset-x-0 top-[10%] h-[42%] text-on-dark/70 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]">
-          <SignalBars />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
+    <section id="home" tabIndex={-1} aria-labelledby="hero-title" className="relative min-h-svh overflow-hidden">
+      <Rain className="absolute inset-0 h-full w-full text-ink-faint/40" />
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-panel to-transparent" aria-hidden />
 
-        <div data-hero-title className="relative px-4 pb-6 md:px-7 md:pb-8">
-          <p className="overflow-hidden text-center">
-            <span data-hero-in className="block text-lg font-medium text-on-dark md:text-xl">
-              AI/ML &amp; full-stack engineer
-            </span>
-          </p>
-          <h1 id="hero-title" className="display mt-3 text-center text-display">
-            <span className="block overflow-hidden">
-              <span data-hero-in className="block">Garjita</span>
-            </span>
-            <span className="block overflow-hidden">
-              <span data-hero-in className="block">Adicandra</span>
-            </span>
+      <div className="relative mx-auto grid min-h-svh max-w-6xl items-center gap-10 px-6 pb-16 pt-32 md:grid-cols-[1.1fr_1fr_1fr] md:pt-24">
+        <Reveal>
+          <h1 id="hero-title" className="text-display font-semibold">
+            <RoleRotator roles={profile.roles} />
           </h1>
-
-          <div className="mt-6 grid items-end gap-4 md:grid-cols-[1fr_2fr_1fr]">
-            <p className="overflow-hidden">
-              <span data-hero-in className="block">
-                <span className="label block text-on-dark-muted">Now</span>
-                <span className="mt-1 block font-medium">LLM engineering intern at AITF</span>
-              </span>
-            </p>
-            <p className="overflow-hidden text-center text-lg text-on-dark-muted md:text-xl">
-              <span data-hero-in className="mx-auto block max-w-xl">
-                I fine-tune vision-language models and build production web apps.
-                Information Engineering student at UGM, Yogyakarta.
-              </span>
-            </p>
-            <p className="overflow-hidden md:text-right">
-              <a data-hero-in href="#work" className="link-dash label">
-                View work <span aria-hidden>↓</span>
-              </a>
-            </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#about" className="pill pill-ghost">
+              About me
+            </a>
+            <a href="#work" className="pill pill-solid">
+              See my work <span aria-hidden>↓</span>
+            </a>
           </div>
-        </div>
+        </Reveal>
+
+        <Reveal delay={0.1} className="order-first mx-auto md:order-none">
+          <div
+            aria-hidden
+            className="grid aspect-square w-48 place-items-center rounded-full bg-panel text-[4.5rem] font-semibold tracking-tighter shadow-[inset_0_0_0_1px_var(--hair)] md:w-64 md:text-[6rem]"
+          >
+            GA
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.2} className="flex flex-col gap-4 text-lg">
+          <p className="text-ink-muted">Hi, I&apos;m {profile.name.split(" ")[0]}</p>
+          <p className="font-medium">{profile.intro}</p>
+          <p className="text-ink-muted">
+            Information Engineering student at UGM, Yogyakarta — currently an LLM engineering intern at AITF.
+          </p>
+        </Reveal>
       </div>
     </section>
   );

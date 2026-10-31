@@ -1,169 +1,174 @@
 @import "tailwindcss";
 
+/* Theme follows the .dark class (set pre-paint from storage / OS). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ------------------------------------------------------------------ *
- *  Sonar-style: warm off-white canvas, near-black ink, dark media
- *  tiles, one lime accent. WCAG ratios (measured):
- *    ink/bg 15.6 · muted/bg 6.8 · faint/bg 4.5 · on-dark/dark 15.6
- *    on-dark-muted/dark 6.7 · ink/accent 15.3 · danger/bg 6.4
- *  Lime is never text on the light canvas (fails) — fill or on-dark only.
+ *  Poulo-style: white canvas, soft gray panels, near-black ink,
+ *  pill controls, generous radius. WCAG ratios (measured):
+ *    light  ink/bg 19.7 · muted/bg 7.7 · muted/panel 7.0 · faint/panel 4.8
+ *    dark   ink/bg 17.9 · muted/bg 7.7 · muted/panel 6.9 · faint/panel 5.2
  * ------------------------------------------------------------------ */
 :root {
-  --bg: #efefeb;
-  --surface: #e6e5df;      /* outlined card fill */
-  --ink: #181618;
-  --ink-muted: #55524c;
-  --ink-faint: #6f6c66;
-  --dark: #181618;         /* media / marquee tiles */
-  --on-dark: #efefeb;
-  --on-dark-muted: #a19e97;
-  --line: #181618;         /* dashed card outlines */
-  --hair: rgba(24, 22, 24, 0.14);
-  --accent: #ccff00;
-  --danger: #a1281d;
-  --radius-card: 0.75rem;
+  --bg: #ffffff;
+  --panel: #f4f4f5;
+  --ink: #0b0b0c;
+  --ink-muted: #52525b;
+  --ink-faint: #6b6b74;
+  --hair: #e4e4e7;
+  --invert-bg: #111113;
+  --invert-ink: #fafafa;
+  --danger: #b42318;
   --gap: 0.75rem;
+}
+
+.dark {
+  --bg: #0b0b0c;
+  --panel: #18181b;
+  --ink: #f4f4f5;
+  --ink-muted: #a1a1aa;
+  --ink-faint: #8a8a93;
+  --hair: #27272a;
+  --invert-bg: #f4f4f5;
+  --invert-ink: #0b0b0c;
+  --danger: #f97066;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-bg: var(--bg);
-  --color-surface: var(--surface);
+  --color-panel: var(--panel);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-ink-faint: var(--ink-faint);
-  --color-dark: var(--dark);
-  --color-on-dark: var(--on-dark);
-  --color-on-dark-muted: var(--on-dark-muted);
-  --color-line: var(--line);
   --color-hair: var(--hair);
-  --color-accent: var(--accent);
+  --color-invert: var(--invert-bg);
+  --color-on-invert: var(--invert-ink);
   --color-danger: var(--danger);
-  --radius-card: var(--radius-card);
   --spacing-gap: var(--gap);
 
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-anton), "Arial Narrow", sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-sans: var(--font-tiktok), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
-  --text-mega: clamp(6rem, 24vw, 22rem);
-  --text-display: clamp(3.25rem, 11vw, 10rem);
-  --text-h1: clamp(2.5rem, 6.5vw, 5.5rem);
-  --text-h2: clamp(1.9rem, 3.6vw, 3.25rem);
+  --text-display: clamp(2.5rem, 5.5vw, 4.75rem);
+  --text-h2: clamp(1.75rem, 3.2vw, 3rem);
+  --text-h3: clamp(1.375rem, 2.2vw, 2rem);
 }
 
-/* Layered so Tailwind utilities (layer: utilities) always win over these. */
+/* Layered so Tailwind utilities always win over these. */
 @layer base {
-html {
-  background: var(--bg);
-  color: var(--ink);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.6;
-  overflow-x: clip;
-}
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: clip;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
   main {
     overflow-x: clip;
   }
 
-::selection {
-  background: var(--accent);
-  color: var(--ink);
-}
+  p {
+    text-wrap: pretty;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  ::selection {
+    background: var(--ink);
+    color: var(--bg);
+  }
 
-:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-.on-dark :focus-visible,
-.on-dark:focus-visible {
-  outline-color: var(--accent);
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 9999px;
+  }
 }
 
 @layer components {
-/* Condensed uppercase display, with serif italic connectors (<em>). */
-.display {
-  font-family: var(--font-display);
-  text-transform: uppercase;
-  line-height: 0.86;
-  letter-spacing: -0.01em;
-}
-.display em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  text-transform: none;
-  font-size: 0.42em;
-  letter-spacing: 0;
-  vertical-align: 0.6em;
-  margin-inline: 0.12em;
-}
+  /* Soft gray panel — poulo's card surface. */
+  .panel {
+    background: var(--panel);
+    border-radius: 1.75rem;
+  }
 
-/* Mono eyebrow for SHORT tags only (≤ ~4 words). Sentences use plain text. */
-.label {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
+  /* Pill button, two flavours. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding-inline: 1.25rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  }
+  .pill:active {
+    transform: scale(0.97);
+  }
+  .pill-solid {
+    background: var(--invert-bg);
+    color: var(--invert-ink);
+    box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.45);
+  }
+  .pill-ghost {
+    background: var(--bg);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--hair), 0 6px 20px -12px rgb(0 0 0 / 0.25);
+  }
+  .pill-ghost:hover {
+    background: var(--panel);
+  }
 
-/* Readable running text: comfortable leading, no ragged single-word lines. */
-p {
-  text-wrap: pretty;
-}
-h1,
-h2,
-h3 {
-  text-wrap: balance;
-}
+  /* Frosted floating bar (top nav). */
+  .glass {
+    background: color-mix(in oklab, var(--bg) 70%, transparent);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--hair) 70%, transparent),
+      0 10px 40px -10px rgb(0 0 0 / 0.18);
+  }
 
-/* Sonar's dashed outlined card. */
-.card {
-  border-radius: var(--radius-card);
-  border: 1px dashed var(--line);
-  background: var(--surface);
-}
+  /* Small section kicker ("Works.", "About me"). */
+  .kicker {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+  }
 
-/* Underlined dashed text link (Sonar's "VIEW PROJECT ➜"). */
-.link-dash {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 44px;
-  background-image: linear-gradient(90deg, currentColor 50%, transparent 0);
-  background-size: 6px 1px;
-  background-repeat: repeat-x;
-  background-position: 0 calc(50% + 0.85em);
-}
+  /* Hairline frame lines around the content column. */
+  .frame {
+    border-inline: 1px solid var(--hair);
+  }
 
-/* Footer spec sheet: dotted leader between key and value. */
-.leader {
-  flex: 1;
-  min-width: 1.5rem;
-  border-bottom: 1px dotted currentColor;
-  opacity: 0.5;
-  transform: translateY(-0.35em);
-}
-
-/* M9: siblings dim when one footer link is hovered — no JS. */
-.dim-siblings:has(a:hover) a:not(:hover) {
-  opacity: 0.3;
-}
-.dim-siblings a {
-  transition: opacity 0.25s;
-}
+  /* Footer link: siblings dim when one is hovered. */
+  .dim-siblings:has(a:hover) a:not(:hover) {
+    opacity: 0.4;
+  }
+  .dim-siblings a {
+    transition: opacity 0.25s;
+  }
 }
 
 /* Lenis */
@@ -176,13 +181,6 @@ html.lenis body {
 }
 .lenis.lenis-stopped {
   overflow: clip;
-}
-
-.no-scrollbar {
-  scrollbar-width: none;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

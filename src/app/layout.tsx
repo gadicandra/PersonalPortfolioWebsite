@@ -1,39 +1,22 @@
 import type { Metadata } from "next";
-import { Anton, Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { IBM_Plex_Mono, TikTok_Sans } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Nav } from "@/components/ui/Nav";
+import { SectionRail } from "@/components/ui/SectionRail";
 import { SITE_URL } from "@/lib/site";
-import { Loader, LOADER_GATE } from "@/components/ui/Loader";
-import { BarCurtain } from "@/components/ui/BarCurtain";
-import { PageEnter } from "@/components/ui/PageEnter";
+import { THEME_GATE } from "@/lib/theme";
 import { profile } from "@/content/profile";
 
-const geist = Geist({
-  variable: "--font-geist",
+const tiktok = TikTok_Sans({
+  variable: "--font-tiktok",
   subsets: ["latin"],
   display: "swap",
 });
 
-// Condensed display face — Sonar's heavy uppercase headlines.
-const anton = Anton({
-  variable: "--font-anton",
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// Serif used only for editorial italic accents (the hero, pull-quotes).
-const instrument = Instrument_Serif({
-  variable: "--font-instrument",
-  weight: "400",
-  style: ["normal", "italic"],
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  weight: ["400", "500"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -93,28 +76,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geist.variable} ${anton.variable} ${geistMono.variable} ${instrument.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={`${tiktok.variable} ${plexMono.variable}`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: LOADER_GATE }} />
+        <script dangerouslySetInnerHTML={{ __html: THEME_GATE }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd).replace(/</g, "\\u003c") }}
         />
       </head>
       <body>
-        <a href="#main" className="label sr-only z-[100] rounded-full bg-ink px-4 py-3 text-bg focus:not-sr-only focus:fixed focus:left-3 focus:top-3">
+        <a
+          href="#main"
+          className="pill pill-solid sr-only z-[100] focus:not-sr-only focus:fixed focus:left-3 focus:top-3"
+        >
           Skip to content
         </a>
         <SmoothScroll>
-          <Loader />
           <Nav />
-          <div data-page className="origin-top">{children}</div>
-          <BarCurtain />
-          <PageEnter />
+          <SectionRail />
+          {children}
         </SmoothScroll>
       </body>
     </html>

@@ -5,7 +5,7 @@ import { submitContact } from "@/app/actions/contact";
 import { initialContactState } from "@/lib/validation";
 
 const fieldBase =
-  "w-full rounded-lg border bg-bg px-4 py-3 text-ink placeholder:text-ink-faint outline-none transition-colors";
+  "w-full rounded-2xl border bg-bg px-4 py-3 text-ink placeholder:text-ink-faint outline-none transition-colors";
 // Non-color cues (for color-vision safety): invalid fields also get a thicker
 // ring, and errors are prefixed with a ⚠ glyph + bold weight — never colour alone.
 const fieldOk =
@@ -40,8 +40,8 @@ export function ContactForm() {
   if (state.status === "success") {
     return (
       <div className="flex min-h-[18rem] flex-col items-start justify-center">
-        <span className="grid size-10 place-items-center rounded-full bg-accent text-ink" aria-hidden>✓</span>
-        <p role="status" className="display mt-4 max-w-sm text-4xl">
+        <span className="grid size-10 place-items-center rounded-full bg-invert text-on-invert" aria-hidden>✓</span>
+        <p role="status" className="mt-4 max-w-sm text-h3 font-medium">
           {state.message}
         </p>
       </div>
@@ -130,7 +130,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="group mt-2 inline-flex min-h-11 w-fit items-center gap-2 rounded-full bg-ink px-7 py-3 text-sm font-medium text-bg transition-colors hover:bg-accent hover:text-ink disabled:opacity-60"
+        className="pill pill-solid group mt-2 w-fit disabled:opacity-60"
       >
         {pending ? "Sending…" : "Send message"}
         {!pending && (

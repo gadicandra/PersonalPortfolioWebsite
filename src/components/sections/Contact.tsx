@@ -1,22 +1,27 @@
 import { Reveal } from "@/components/ui/Reveal";
-import { SplitHeading } from "@/components/ui/SplitHeading";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { profile } from "@/content/profile";
 
 export function Contact() {
   return (
-    <section id="contact" tabIndex={-1} aria-labelledby="contact-title" className="grid gap-gap px-3 md:grid-cols-2 md:px-7">
-      <Reveal className="card flex flex-col justify-center px-6 py-14 md:px-10">
-        <p className="label text-ink-muted">Contact</p>
-        <SplitHeading id="contact-title" className="display mt-4 text-h1">
-          <em>let&apos;s</em>Build<em>something</em> Together
-        </SplitHeading>
-        <p className="mt-6 max-w-sm text-ink-muted">
-          Research, freelance, or just to talk models — it lands straight in my inbox.
-        </p>
-      </Reveal>
-      <Reveal delay={0.06} className="card px-6 py-10 md:px-10">
-        <ContactForm />
-      </Reveal>
+    <section id="contact" tabIndex={-1} aria-labelledby="contact-title" className="frame mx-auto max-w-6xl px-4 py-24 md:px-8">
+      <div className="grid gap-gap md:grid-cols-2">
+        <Reveal className="flex flex-col justify-center py-6">
+          <p className="kicker">Contact</p>
+          <h2 id="contact-title" className="mt-3 text-h2 font-medium">
+            Let&apos;s build something together.
+          </h2>
+          <p className="mt-4 max-w-md text-lg text-ink-muted">
+            Research, freelance, or just to talk models — it lands straight in my inbox.
+          </p>
+          <a href={`mailto:${profile.email}`} className="mt-6 self-start font-medium underline decoration-hair underline-offset-4 hover:decoration-ink">
+            {profile.email}
+          </a>
+        </Reveal>
+        <Reveal delay={0.08} className="panel p-6 md:p-8">
+          <ContactForm />
+        </Reveal>
+      </div>
     </section>
   );
 }

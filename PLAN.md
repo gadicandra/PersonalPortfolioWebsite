@@ -1,5 +1,10 @@
 # Portfolio Rebuild — Master Plan
 
+> **2026-10-31 — reference changed to https://www.poulo.site/** (branch `feat/poulo-redesign`, stacked on `feat/readability`).
+> The Sonar design (§0, §0.1, Phases 2–4 below) is superseded; security, CI, content model and `/work/[slug]` carry over.
+> See §0.2 for what was taken from poulo.
+
+
 Reference: https://www.sonarmusic.com.au/ · Stack stays: Next.js 16 (App Router) · React 19 · Tailwind v4 · GSAP · Lenis · Resend · zod · pnpm.
 Tick boxes as you go. Each phase ships on its own branch + PR, so you can stop anywhere and the site still works.
 
@@ -48,6 +53,30 @@ Sonar's wow factor comes from **choreographed transitions and hover**, not scrol
 - (c) The marquee speeds up and slows down with scroll velocity (`ScrollTrigger.getVelocity()`).
 
 ---
+
+### 0.2 Poulo inventory (current reference)
+| Poulo element | Our version |
+|---|---|
+| White canvas, soft gray rounded panels, TikTok Sans | Same: TikTok Sans + IBM Plex Mono via `next/font`, `.panel` / `.pill` tokens, light + dark |
+| Floating glass pill nav (icons, active state, theme toggle, CTA) | `Nav.tsx`: icon links with tooltips + `aria-label`, `useActiveSection`, `useSyncExternalStore` theme, mailto CTA |
+| Left section rail (dashes, active one long) | `SectionRail.tsx`, ≥1280px only |
+| Hero: rotating title with blur letters, avatar centre, intro right, drizzle | `RoleRotator` (GSAP, per-letter blur), "GA" monogram, `Rain` canvas (pauses off-screen / hidden tab) |
+| Blur-in reveal on scroll | `Reveal` → `filter: blur(12px)` + rise, once |
+| Works: filter pills, showcase (media + story panel), 4 highlight cards | `Work.tsx` with `hook` / `role` / `highlights` in `content/projects.ts` |
+| Experiments row | `Models.tsx` (3 cards) |
+| About me statement + bio | `About.tsx` + experience timeline + honours + certifications |
+| Stack icon wall + skill graph | `Stack.tsx` chip groups (graph skipped: heavy canvas, low info) |
+| Footer link columns + giant faded wordmark | `Footer.tsx`, wordmark as decorative SVG |
+| Top fade under nav | gradient strip in `Nav.tsx` |
+
+**Skipped on purpose:** cookie banner + GA (no analytics yet), Calendly "Book a Call" (mailto instead), chat bubble, skill-graph canvas, metal/gooey SVG filters.
+
+**Verified 2026-10-31 (prod build, Playwright):** axe 0 violations light + dark on `/` and `/work/*`; reduced motion → first role static, no Lenis, nothing hidden; filter, theme toggle + persistence, anchor nav + active state; 375px no overflow; 0 page errors.
+
+**Open for poulo phase**
+- [ ] Real avatar/illustration to replace the "GA" monogram
+- [ ] Screenshots for Puskesmas + Chili Hub (gradient placeholder now)
+- [ ] Optional: Calendly link if you want "Book a Call"
 
 ## 1. Decisions (resolved 2026-10-28: all recommendations accepted)
 D1 = light-first off-white + lime accent · D2 = Anton · D3 = you gather media · D4 = `/work/[slug]` yes.
