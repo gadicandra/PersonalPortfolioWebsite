@@ -7,10 +7,9 @@ export const profile = {
   status: "4th Semester · 3.6 GPA",
   email: "g.adicandra0@gmail.com",
 
-  // Hero — split so the serif accent can be styled independently.
-  heroLead: "I build",
-  heroAccent: "intelligent systems",
-  heroTail: "and the interfaces around them.",
+  // Hero rotator (poulo-style): short, scannable titles.
+  roles: ["AI/ML Engineer", "LLM Fine-tuner", "Full-Stack Developer", "VLM Researcher"],
+  intro: "I fine-tune vision-language models and build production web apps.",
 
   about: [
     "I'm an Information Engineering student at UGM working at the seam between machine learning and the web — fine-tuning vision-language models one week, shipping a production Next.js app the next.",

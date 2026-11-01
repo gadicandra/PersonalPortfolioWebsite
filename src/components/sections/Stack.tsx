@@ -1,43 +1,31 @@
-import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { stack } from "@/content/stack";
 
+/** Poulo's "Stack": grouped tools as quiet chips. */
 export function Stack() {
   return (
-    <Section id="stack" className="py-28 md:py-40">
+    <section id="stack" tabIndex={-1} aria-labelledby="stack-title" className="frame mx-auto max-w-6xl px-4 py-24 md:px-8">
       <Reveal>
-        <Eyebrow index="05">Stack</Eyebrow>
-      </Reveal>
-      <Reveal delay={0.05}>
-        <h2 className="mt-6 max-w-2xl font-sans text-h2 font-medium leading-tight tracking-[-0.02em]">
-          The tools I reach for, from{" "}
-          <span className="font-serif italic text-accent">tensors</span> to
-          production.
+        <h2 id="stack-title" className="text-h2 font-medium">
+          Stack.
         </h2>
+        <p className="mt-2 text-ink-muted">What I reach for, grouped by where it gets used.</p>
       </Reveal>
 
-      <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
-        {stack.map((group, i) => (
-          <Reveal key={group.title} delay={i * 0.06} className="bg-bg">
-            <div className="h-full p-7">
-              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-                {group.title}
-              </h3>
-              <ul className="mt-5 space-y-2.5">
-                {group.items.map((item) => (
-                  <li
-                    key={item}
-                    className="text-sm leading-relaxed text-fg-muted"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+      <div className="mt-12 grid gap-gap md:grid-cols-2">
+        {stack.map((g, i) => (
+          <Reveal key={g.title} delay={(i % 2) * 0.08} className="panel p-6 md:p-8">
+            <h3 className="text-lg font-medium">{g.title}</h3>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {g.items.map((t) => (
+                <li key={t} className="rounded-full bg-bg px-3.5 py-1.5 text-sm shadow-[inset_0_0_0_1px_var(--hair)]">
+                  {t}
+                </li>
+              ))}
+            </ul>
           </Reveal>
         ))}
       </div>
-    </Section>
+    </section>
   );
 }

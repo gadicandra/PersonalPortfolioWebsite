@@ -65,6 +65,18 @@ export const achievements: AchievementGroup[] = [
     title: "Honors & Awards",
     items: [
       {
+        title: "1st Place · Artificial Intelligence",
+        issuer: "KMTETI Bootcamp",
+        year: "2025",
+        note: "Cassava Leaf Disease Detection — later presented at the UGM × University of Malaya summer course.",
+      },
+      {
+        title: "2nd Place · Internet of Things",
+        issuer: "KMTETI Bootcamp",
+        year: "2025",
+        note: "Chili Hub, an AIoT platform for chili farming.",
+      },
+      {
         title: "Staff of the Year",
         issuer: "KMTETI FT UGM",
         year: "2025",

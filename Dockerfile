@@ -19,9 +19,13 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN pnpm run build
 
-# ----- runner -----
-FROM base AS runner
-ENV NODE_ENV=production
-COPY --from=build /app ./
+# ----- runner: standalone output only, non-root -----
+FROM node:24-slim AS runner
+WORKDIR /app
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0
+COPY --from=build --chown=node:node /app/.next/standalone ./
+COPY --from=build --chown=node:node /app/.next/static ./.next/static
+COPY --from=build --chown=node:node /app/public ./public
+USER node
 EXPOSE 3000
-CMD ["pnpm", "start"]
+CMD ["node", "server.js"]

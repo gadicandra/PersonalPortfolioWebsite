@@ -1,5 +1,15 @@
+import type { StaticImageData } from "next/image";
+import img180dc from "./media/180dc.webp";
+import imgFindit from "./media/findit.webp";
+import imgNgambis from "./media/ngambis.webp";
+
+export type Discipline = "web" | "ai" | "iot";
+
 export type Project = {
+  /** URL slug for /work/[id]. */
   id: string;
+  discipline: Discipline;
+  image?: StaticImageData;
   title: string;
   category: string;
   year: string;
@@ -8,11 +18,45 @@ export type Project = {
   tags: string[];
   href?: string;
   linkLabel?: string;
+  /** Poulo-style headline: "Project. One-line hook." */
+  hook: string;
+  role: string;
+  /** 2–4 short "what I did" cards under the showcase. */
+  highlights: { title: string; body: string }[];
 };
 
 export const projects: Project[] = [
   {
+    id: "cassava-leaf",
+    hook: "Spotting cassava leaf disease before it spreads.",
+    role: "Deep learning · KMTETI Bootcamp",
+    highlights: [
+      { title: "Five-way classifier.", body: "Sorts leaf photos into Bacterial Blight, Mosaic, Green Mottle, Brown Streak, or Healthy." },
+      { title: "1st place, AI.", body: "Won the Artificial Intelligence category at the KMTETI Bootcamp 2025." },
+      { title: "Taken international.", body: "Presented at the DEIE Summer Course \u201cTech for Impact\u201d (UGM \u00d7 University of Malaya)." },
+    ],
+    discipline: "ai",
+    title: "Cassava Leaf Disease Detection",
+    category: "Computer Vision · Agriculture",
+    year: "2025",
+    summary:
+      "A deep learning model that classifies cassava leaf images into five conditions to support early disease detection in agriculture.",
+    detail:
+      "Built for the KMTETI Bootcamp, where it took 1st place in the AI category, then presented to an international audience at the UGM \u00d7 University of Malaya summer course.",
+    tags: ["Python", "PyTorch", "Computer Vision", "Deep Learning"],
+  },
+  {
     id: "180dc-ugm",
+    hook: "Eighty, a RAG assistant that answers for the firm.",
+    role: "IT Analyst \u00b7 Web & AI",
+    highlights: [
+      { title: "RAG assistant.", body: "Built Eighty so clients and visitors get grounded answers about 180DC UGM instead of digging through pages." },
+      { title: "Event flows.", body: "Shipped event pages with their registration flows and a merch purchase form." },
+      { title: "TypeScript migration.", body: "Led the move from JavaScript to TypeScript across the codebase." },
+      { title: "Tailwind v4.", body: "Upgraded the styling layer from earlier Tailwind to v4." },
+    ],
+    discipline: "web",
+    image: img180dc,
     title: "180DC UGM",
     category: "Web · AI RAG",
     year: "2025",
@@ -26,6 +70,15 @@ export const projects: Project[] = [
   },
   {
     id: "find-it-ugm",
+    hook: "The platform behind a national IT competition.",
+    role: "Front-end Web Developer",
+    highlights: [
+      { title: "Motion-led homepage.", body: "A GSAP-driven landing page that sets the tone for the event." },
+      { title: "Participant dashboard.", body: "Registration status, submissions and announcements in one place." },
+      { title: "Admin control.", body: "The management surface organisers use to run the competition." },
+    ],
+    discipline: "web",
+    image: imgFindit,
     title: "Find IT UGM",
     category: "Web · Event Platform",
     year: "2025",
@@ -39,6 +92,14 @@ export const projects: Project[] = [
   },
   {
     id: "ngambis",
+    hook: "Learning paths so every student gets the same shot.",
+    role: "Freelance Developer",
+    highlights: [
+      { title: "Equal access.", body: "An education platform aimed at levelling the field for school students." },
+      { title: "Guided learning.", body: "Structured paths, question banks and progress tracking." },
+    ],
+    discipline: "web",
+    image: imgNgambis,
     title: "Ngambis.id",
     category: "Freelance · EdTech",
     year: "2025",
@@ -52,6 +113,13 @@ export const projects: Project[] = [
   },
   {
     id: "puskesmas",
+    hook: "Health info a community can find in seconds.",
+    role: "Freelance \u00b7 Design phase",
+    highlights: [
+      { title: "Emergency first.", body: "Emergency numbers and general info surfaced before anything else." },
+      { title: "Clear service flow.", body: "Step-by-step service procedures and live vaccine availability." },
+    ],
+    discipline: "web",
     title: "Puskesmas Batulicin",
     category: "Freelance · Web",
     year: "2026",
@@ -63,6 +131,15 @@ export const projects: Project[] = [
   },
   {
     id: "chili-hub",
+    hook: "AIoT that helps chili farmers decide, not guess.",
+    role: "Samsung Innovation Campus \u00b7 Batch 7",
+    highlights: [
+      { title: "Sensor monitoring.", body: "Embedded sensors stream field conditions to a web dashboard." },
+      { title: "Decision support.", body: "Readings turned into guidance growers can act on." },
+      { title: "Final mentoring.", body: "Taken through to the programme\u2019s final mentoring stage." },
+      { title: "2nd place, IoT.", body: "Placed second in the IoT category at the KMTETI Bootcamp 2025." },
+    ],
+    discipline: "iot",
     title: "Chili Hub",
     category: "AIoT · Agriculture",
     year: "2025",
@@ -74,3 +151,5 @@ export const projects: Project[] = [
     href: "https://github.com/gadicandra/Chili-Hub-solusi-Pertanian-Cabai-Anda",
   },
 ];
+
+export const getProject = (id: string) => projects.find((p) => p.id === id);

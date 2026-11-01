@@ -1,100 +1,177 @@
 @import "tailwindcss";
 
+/* Theme follows the .dark class (set pre-paint from storage / OS). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ------------------------------------------------------------------ *
- *  Full black — electric lime
- *  Pure #000 surface end to end, crisp near-white ink, one high-voltage
- *  lime accent that does all the visibility work. Monochrome until the
- *  accent lands.
+ *  Poulo-style: white canvas, soft gray panels, near-black ink,
+ *  pill controls, generous radius. WCAG ratios (measured):
+ *    light  ink/bg 19.7 · muted/bg 7.7 · muted/panel 7.0 · faint/panel 4.8
+ *    dark   ink/bg 17.9 · muted/bg 7.7 · muted/panel 6.9 · faint/panel 5.2
  * ------------------------------------------------------------------ */
 :root {
-  --bg: #000000;          /* full black */
-  --bg-raised: #0c0c0c;   /* faint lift for cards / hover */
-  --bg-sunken: #000000;
-  --fg: #f5f5f4;          /* near-white ink */
-  --fg-muted: #9b9b94;    /* readable secondary */
-  --fg-faint: #5e5e57;    /* de-emphasised meta */
-  --line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(255, 255, 255, 0.2);
-  --accent: #ccff00;      /* electric lime */
-  --accent-dim: #5e6b22;  /* muted olive — hairlines, scroll cue */
+  --bg: #ffffff;
+  --panel: #f4f4f5;
+  --ink: #0b0b0c;
+  --ink-muted: #52525b;
+  --ink-faint: #6b6b74;
+  --hair: #e4e4e7;
+  --invert-bg: #111113;
+  --invert-ink: #fafafa;
+  --danger: #b42318;
+  --gap: 0.75rem;
+}
+
+.dark {
+  --bg: #0b0b0c;
+  --panel: #18181b;
+  --ink: #f4f4f5;
+  --ink-muted: #a1a1aa;
+  --ink-faint: #8a8a93;
+  --hair: #27272a;
+  --invert-bg: #f4f4f5;
+  --invert-ink: #0b0b0c;
+  --danger: #f97066;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-bg: var(--bg);
-  --color-bg-raised: var(--bg-raised);
-  --color-bg-sunken: var(--bg-sunken);
-  --color-fg: var(--fg);
-  --color-fg-muted: var(--fg-muted);
-  --color-fg-faint: var(--fg-faint);
-  --color-line: var(--line);
-  --color-line-strong: var(--line-strong);
-  --color-accent: var(--accent);
-  --color-accent-dim: var(--accent-dim);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-hair: var(--hair);
+  --color-invert: var(--invert-bg);
+  --color-on-invert: var(--invert-ink);
+  --color-danger: var(--danger);
+  --spacing-gap: var(--gap);
 
-  --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-sans: var(--font-tiktok), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
-  /* Editorial type scale */
-  --text-display: clamp(2.75rem, 9vw, 8.5rem);
-  --text-h1: clamp(2.25rem, 5.5vw, 4.5rem);
-  --text-h2: clamp(1.75rem, 3.5vw, 3rem);
+  --text-display: clamp(2.5rem, 5.5vw, 4.75rem);
+  --text-h2: clamp(1.75rem, 3.2vw, 3rem);
+  --text-h3: clamp(1.375rem, 2.2vw, 2rem);
 }
 
-* {
-  border-color: var(--line);
+/* Layered so Tailwind utilities always win over these. */
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: clip;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  main {
+    overflow-x: clip;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 9999px;
+  }
 }
 
-html {
-  background: var(--bg);
-  color: var(--fg);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+@layer components {
+  /* Soft gray panel — poulo's card surface. */
+  .panel {
+    background: var(--panel);
+    border-radius: 1.75rem;
+  }
+
+  /* Pill button, two flavours. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding-inline: 1.25rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  }
+  .pill:active {
+    transform: scale(0.97);
+  }
+  .pill-solid {
+    background: var(--invert-bg);
+    color: var(--invert-ink);
+    box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.45);
+  }
+  .pill-ghost {
+    background: var(--bg);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--hair), 0 6px 20px -12px rgb(0 0 0 / 0.25);
+  }
+  .pill-ghost:hover {
+    background: var(--panel);
+  }
+
+  /* Frosted floating bar (top nav). */
+  .glass {
+    background: color-mix(in oklab, var(--bg) 70%, transparent);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--hair) 70%, transparent),
+      0 10px 40px -10px rgb(0 0 0 / 0.18);
+  }
+
+  /* Small section kicker ("Works.", "About me"). */
+  .kicker {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+  }
+
+  /* Hairline frame lines around the content column. */
+  .frame {
+    border-inline: 1px solid var(--hair);
+  }
+
+  /* Footer link: siblings dim when one is hovered. */
+  .dim-siblings:has(a:hover) a:not(:hover) {
+    opacity: 0.4;
+  }
+  .dim-siblings a {
+    transition: opacity 0.25s;
+  }
 }
 
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-sans);
-  font-feature-settings: "ss01", "cv01";
-  overflow-x: hidden;
-}
-
-::selection {
-  background: var(--accent);
-  color: #000000;
-}
-
-/* Thin scrollbar that disappears into the black surface */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #000000;
-}
-::-webkit-scrollbar-thumb {
-  background: #262626;
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #383838;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* Mono eyebrow / label treatment used across sections */
-.label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-}
-
-/* Lenis: disable native smooth scroll, let the lib own it */
+/* Lenis */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -106,7 +183,6 @@ html.lenis body {
   overflow: clip;
 }
 
-/* When motion is reduced, neutralise any JS-applied transforms safely */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -115,12 +191,4 @@ html.lenis body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-}
-
-/* Faint grain/vignette helpers (used by hero) */
-.bg-grid {
-  background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 80px 80px;
 }

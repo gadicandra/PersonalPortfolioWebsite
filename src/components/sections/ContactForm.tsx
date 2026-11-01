@@ -1,24 +1,24 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { submitContact } from "@/app/actions/contact";
 import { initialContactState } from "@/lib/validation";
 
 const fieldBase =
-  "w-full rounded-lg border bg-bg-raised px-4 py-3 text-fg placeholder:text-fg-faint outline-none transition-colors";
+  "w-full rounded-2xl border bg-bg px-4 py-3 text-ink placeholder:text-ink-faint outline-none transition-colors";
 // Non-color cues (for color-vision safety): invalid fields also get a thicker
 // ring, and errors are prefixed with a ⚠ glyph + bold weight — never colour alone.
 const fieldOk =
-  "border-line-strong hover:border-fg-faint focus:border-accent focus:ring-1 focus:ring-accent";
+  "border-hair hover:border-ink-faint focus:border-ink focus:ring-1 focus:ring-ink";
 const fieldError =
-  "border-red-400 ring-1 ring-red-400 focus:border-red-300 focus:ring-red-300";
+  "border-danger border-2 focus:ring-1 focus:ring-danger";
 
 function FieldError({ id, message }: { id: string; message: string }) {
   return (
     <p
       id={id}
       role="alert"
-      className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-red-400"
+      className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-danger"
     >
       <span aria-hidden>⚠</span>
       {message}
@@ -31,12 +31,17 @@ export function ContactForm() {
     submitContact,
     initialContactState,
   );
+  // Stamped after mount (not during render) to avoid a hydration mismatch.
+  const startedAt = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (startedAt.current) startedAt.current.value = String(Date.now());
+  }, []);
 
   if (state.status === "success") {
     return (
       <div className="flex min-h-[18rem] flex-col items-start justify-center">
-        <span className="text-accent">✦</span>
-        <p className="mt-4 max-w-sm text-2xl leading-snug tracking-tight">
+        <span className="grid size-10 place-items-center rounded-full bg-invert text-on-invert" aria-hidden>✓</span>
+        <p role="status" className="mt-4 max-w-sm text-h3 font-medium">
           {state.message}
         </p>
       </div>
@@ -48,8 +53,15 @@ export function ContactForm() {
 
   return (
     <form action={action} className="flex flex-col gap-7" noValidate>
+      {/* Bot traps, see looksLikeBot. Hidden from people and screen readers. */}
+      <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor="company">Company</label>
+        <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+      <input ref={startedAt} type="hidden" name="startedAt" />
+
       <div>
-        <label htmlFor="name" className="label">
+        <label htmlFor="name" className="font-medium">
           Name
         </label>
         <input
@@ -68,7 +80,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="email" className="label">
+        <label htmlFor="email" className="font-medium">
           Email
         </label>
         <input
@@ -87,7 +99,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="label">
+        <label htmlFor="message" className="font-medium">
           Message
         </label>
         <textarea
@@ -108,7 +120,7 @@ export function ContactForm() {
       {state.status === "error" && state.message && (
         <p
           role="alert"
-          className="flex items-center gap-1.5 text-sm font-semibold text-red-400"
+          className="flex items-center gap-1.5 text-sm font-semibold text-danger"
         >
           <span aria-hidden>⚠</span>
           {state.message}
@@ -118,7 +130,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="group mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-fg px-7 py-3 text-sm font-medium text-bg transition-colors hover:bg-accent disabled:opacity-60"
+        className="pill pill-solid group mt-2 w-fit disabled:opacity-60"
       >
         {pending ? "Sending…" : "Send message"}
         {!pending && (

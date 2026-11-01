@@ -9,9 +9,9 @@ export const experience: Experience[] = [
   {
     org: "AI Talent Factory (AITF) — Komdigi",
     role: "AI / LLM Engineering Intern",
-    period: "Jan 2026 — Present",
+    period: "Jan 2026 — Jun 2026",
     description:
-      "National AI talent program under Kementerian Komunikasi dan Digital. Fine-tuned the Qwen3-4B-Multitask model on the program's CPT base, focused on applied LLM and VLM engineering.",
+      "National AI talent program under Kementerian Komunikasi dan Digital. Fine-tuned Qwen3-4B and Qwen3.5-4B with supervised fine-tuning across data prep, training and evaluation — specialising small LLMs and VLMs for responsible public-service use cases.",
   },
   {
     org: "180 Degrees Consulting UGM",
@@ -40,5 +40,12 @@ export const experience: Experience[] = [
     period: "Dec 2024 — Present",
     description:
       "Lead the Electropreneur division of the Electrical & IT student association. Previously Staff Electropreneur and named Staff of the Year KMTETI 2025.",
+  },
+  {
+    org: "KOMATIK UGM",
+    role: "Member, Competitive Programming",
+    period: "Nov 2024 — Mar 2026",
+    description:
+      "Regular algorithm and problem-solving practice with UGM's IT student community — the logical groundwork behind day-to-day development.",
   },
 ];

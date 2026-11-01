@@ -1,133 +1,47 @@
-"use client";
-
-import { useRef } from "react";
-import { gsap, prefersReducedMotion } from "@/lib/gsap";
-import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
-import { scrollToSection } from "@/lib/lenis";
+import { Rain } from "@/components/ui/Rain";
+import { Reveal } from "@/components/ui/Reveal";
+import { RoleRotator } from "@/components/ui/RoleRotator";
 import { profile } from "@/content/profile";
 
+/** Poulo's hero: rotating title left, monogram avatar centre, intro right, drizzle behind. */
 export function Hero() {
-  const root = useRef<HTMLDivElement>(null);
-
-  useIsomorphicLayoutEffect(() => {
-    const el = root.current;
-    if (!el || prefersReducedMotion()) return;
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from("[data-hero='eyebrow']", { opacity: 0, y: 16, duration: 0.7 })
-        .from(
-          "[data-hero='line'] > span",
-          { yPercent: 115, duration: 1.05, stagger: 0.12 },
-          "-=0.35",
-        )
-        .from(
-          "[data-hero='lede']",
-          { opacity: 0, y: 20, duration: 0.8 },
-          "-=0.55",
-        )
-        .from(
-          "[data-hero='cta'] > *",
-          { opacity: 0, y: 16, duration: 0.6, stagger: 0.1 },
-          "-=0.45",
-        )
-        .from(
-          "[data-hero='stat']",
-          { opacity: 0, y: 16, duration: 0.6, stagger: 0.08 },
-          "-=0.4",
-        )
-        .from(
-          "[data-hero='scroll']",
-          { opacity: 0, duration: 0.8 },
-          "-=0.3",
-        );
-    }, el);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div
-      ref={root}
-      className="relative flex min-h-svh flex-col justify-center overflow-hidden px-6 pb-20 pt-28 md:px-10"
-    >
-      {/* faint grid + radial fade for depth */}
-      <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.5] [mask-image:radial-gradient(ellipse_at_center,black,transparent_72%)]" />
+    <section id="home" tabIndex={-1} aria-labelledby="hero-title" className="relative min-h-svh overflow-hidden">
+      <Rain className="absolute inset-0 h-full w-full text-ink-faint/40" />
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-panel to-transparent" aria-hidden />
 
-      <div className="relative mx-auto w-full max-w-7xl">
-        <p
-          data-hero="eyebrow"
-          className="label flex items-center gap-3"
-        >
-          <span className="inline-block h-px w-8 bg-accent-dim" />
-          {profile.role}
-        </p>
-
-        <h1 className="mt-8 font-sans text-display font-medium leading-[0.92] tracking-[-0.03em]">
-          <span data-hero="line" className="block overflow-hidden">
-            <span className="block">{profile.heroLead}</span>
-          </span>
-          <span data-hero="line" className="block overflow-hidden">
-            <span className="block font-serif font-normal italic text-accent">
-              {profile.heroAccent}
-            </span>
-          </span>
-          <span data-hero="line" className="block overflow-hidden">
-            <span className="block text-fg-muted">{profile.heroTail}</span>
-          </span>
-        </h1>
-
-        <div className="mt-10 flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
-          <p
-            data-hero="lede"
-            className="max-w-md text-base leading-relaxed text-fg-muted"
-          >
-            {profile.education}. Currently fine-tuning vision-language models and
-            shipping production web apps from {profile.location}.
-          </p>
-
-          <div data-hero="cta" className="flex flex-wrap items-center gap-4">
-            <button
-              onClick={() => scrollToSection("#work")}
-              className="group inline-flex items-center gap-2 rounded-full bg-fg px-6 py-3 text-sm font-medium text-bg transition-colors hover:bg-accent"
-            >
-              View work
-              <span className="transition-transform group-hover:translate-y-0.5">
-                ↓
-              </span>
-            </button>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-line-strong px-6 py-3 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
-            >
-              LinkedIn ↗
+      <div className="relative mx-auto grid min-h-svh max-w-6xl items-center gap-10 px-6 pb-16 pt-32 md:grid-cols-[1.1fr_1fr_1fr] md:pt-24">
+        <Reveal>
+          <h1 id="hero-title" className="text-display font-semibold">
+            <RoleRotator roles={profile.roles} />
+          </h1>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#about" className="pill pill-ghost">
+              About me
+            </a>
+            <a href="#work" className="pill pill-solid">
+              See my work <span aria-hidden>↓</span>
             </a>
           </div>
-        </div>
+        </Reveal>
 
-        <dl className="mt-16 grid max-w-2xl grid-cols-3 gap-6 border-t border-line pt-8">
-          {profile.stats.map((s) => (
-            <div key={s.label} data-hero="stat">
-              <dt className="font-sans text-3xl font-medium tracking-tight md:text-4xl">
-                {s.value}
-              </dt>
-              <dd className="label mt-1 normal-case tracking-normal">
-                {s.label}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+        <Reveal delay={0.1} className="order-first mx-auto md:order-none">
+          <div
+            aria-hidden
+            className="grid aspect-square w-48 place-items-center rounded-full bg-panel text-[4.5rem] font-semibold tracking-tighter shadow-[inset_0_0_0_1px_var(--hair)] md:w-64 md:text-[6rem]"
+          >
+            GA
+          </div>
+        </Reveal>
 
-      <div
-        data-hero="scroll"
-        className="label absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-2 md:flex"
-      >
-        <span>Scroll</span>
-        <span className="inline-block h-8 w-px animate-pulse bg-accent-dim" />
+        <Reveal delay={0.2} className="flex flex-col gap-4 text-lg">
+          <p className="text-ink-muted">Hi, I&apos;m {profile.name.split(" ")[0]}</p>
+          <p className="font-medium">{profile.intro}</p>
+          <p className="text-ink-muted">
+            Information Engineering student at UGM, Yogyakarta — previously an LLM engineering intern at AITF (Komdigi).
+          </p>
+        </Reveal>
       </div>
-    </div>
+    </section>
   );
 }
