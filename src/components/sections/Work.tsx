@@ -9,6 +9,7 @@ import { ScrollTrigger } from "@/lib/gsap";
 
 const FILTERS: { key: Discipline | "all"; label: string }[] = [
   { key: "all", label: "Show all" },
+  { key: "ai", label: "AI / ML" },
   { key: "web", label: "Websites" },
   { key: "iot", label: "AIoT" },
 ];

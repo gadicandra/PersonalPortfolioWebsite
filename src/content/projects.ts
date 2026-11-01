@@ -27,6 +27,25 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: "cassava-leaf",
+    hook: "Spotting cassava leaf disease before it spreads.",
+    role: "Deep learning · KMTETI Bootcamp",
+    highlights: [
+      { title: "Five-way classifier.", body: "Sorts leaf photos into Bacterial Blight, Mosaic, Green Mottle, Brown Streak, or Healthy." },
+      { title: "1st place, AI.", body: "Won the Artificial Intelligence category at the KMTETI Bootcamp 2025." },
+      { title: "Taken international.", body: "Presented at the DEIE Summer Course \u201cTech for Impact\u201d (UGM \u00d7 University of Malaya)." },
+    ],
+    discipline: "ai",
+    title: "Cassava Leaf Disease Detection",
+    category: "Computer Vision · Agriculture",
+    year: "2025",
+    summary:
+      "A deep learning model that classifies cassava leaf images into five conditions to support early disease detection in agriculture.",
+    detail:
+      "Built for the KMTETI Bootcamp, where it took 1st place in the AI category, then presented to an international audience at the UGM \u00d7 University of Malaya summer course.",
+    tags: ["Python", "PyTorch", "Computer Vision", "Deep Learning"],
+  },
+  {
     id: "180dc-ugm",
     hook: "Eighty, a RAG assistant that answers for the firm.",
     role: "IT Analyst \u00b7 Web & AI",
@@ -118,6 +137,7 @@ export const projects: Project[] = [
       { title: "Sensor monitoring.", body: "Embedded sensors stream field conditions to a web dashboard." },
       { title: "Decision support.", body: "Readings turned into guidance growers can act on." },
       { title: "Final mentoring.", body: "Taken through to the programme\u2019s final mentoring stage." },
+      { title: "2nd place, IoT.", body: "Placed second in the IoT category at the KMTETI Bootcamp 2025." },
     ],
     discipline: "iot",
     title: "Chili Hub",
