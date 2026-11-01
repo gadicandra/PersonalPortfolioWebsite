@@ -9,7 +9,7 @@ export const experience: Experience[] = [
   {
     org: "AI Talent Factory (AITF) — Komdigi",
     role: "AI / LLM Engineering Intern",
-    period: "Jan 2026 — Present",
+    period: "Jan 2026 — Jun 2026",
     description:
       "National AI talent program under Kementerian Komunikasi dan Digital. Fine-tuned Qwen3-4B and Qwen3.5-4B with supervised fine-tuning across data prep, training and evaluation — specialising small LLMs and VLMs for responsible public-service use cases.",
   },

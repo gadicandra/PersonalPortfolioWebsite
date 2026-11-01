@@ -38,7 +38,7 @@ export function Hero() {
           <p className="text-ink-muted">Hi, I&apos;m {profile.name.split(" ")[0]}</p>
           <p className="font-medium">{profile.intro}</p>
           <p className="text-ink-muted">
-            Information Engineering student at UGM, Yogyakarta — currently an LLM engineering intern at AITF.
+            Information Engineering student at UGM, Yogyakarta — previously an LLM engineering intern at AITF (Komdigi).
           </p>
         </Reveal>
       </div>
