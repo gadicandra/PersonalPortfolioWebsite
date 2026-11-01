@@ -8,10 +8,14 @@ import { SITE_URL } from "@/lib/site";
 import { THEME_GATE } from "@/lib/theme";
 import { profile } from "@/content/profile";
 
+// Next ships no fallback metrics for TikTok Sans yet (build warning), so skip
+// the generated fallback and lean on the system stack instead.
 const tiktok = TikTok_Sans({
   variable: "--font-tiktok",
   subsets: ["latin"],
   display: "swap",
+  adjustFontFallback: false,
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
 const plexMono = IBM_Plex_Mono({
